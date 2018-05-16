@@ -6,9 +6,14 @@
         xmlns:local="clr-namespace:NetworkWpf"
         mc:Ignorable="d"
         Title="NetworkWindow">
-    <StackPanel Orientation="Vertical">
-        <Button x:Name="HttpClientBtn" Content="HttpClient" Click="HttpClientBtn_Click"/>
-        <Button x:Name="GetDataWithHeadersBtn" Content="GetDataWithHeaders" Click="GetDataWithHeadersBtn_Click"/>
+    <DockPanel>
+        <StackPanel Orientation="Vertical" Width="100" DockPanel.Dock="Left">
+            <Button x:Name="HttpClientBtn" Content="HttpClient" Click="HttpClientBtn_Click"/>
+            <Button x:Name="GetDataWithHeadersBtn" Content="GetDataWithHeaders" Click="GetDataWithHeadersBtn_Click"/>
+            <Button x:Name="UriBtn" Content="Uri" Click="UriBtn_Click"/>
+            <Button x:Name="UribuilderBtn" Content="Uribuilder" Click="UribuilderBtn_Click"/>
+        </StackPanel>
+        
         <TextBox x:Name="showText" Text="text" Width="600" TextWrapping="Wrap" ></TextBox>
-    </StackPanel>
+    </DockPanel>
 </Window>

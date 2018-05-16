@@ -27,6 +27,21 @@ namespace NetworkWpf
         {
             InitializeComponent();
         }
+        #region HttpClient相关
+        /// <summary>
+        /// 单击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void HttpClientBtn_Click(object sender, RoutedEventArgs e)
+        {
+            await GetDataSimpleAsync();
+        }
+
+        /// <summary>
+        /// HttpClient相关
+        /// </summary>
+        /// <returns></returns>
         private async Task GetDataSimpleAsync()
         {
             #region 正确的Url
@@ -59,17 +74,21 @@ namespace NetworkWpf
             //}
             #endregion
         }
-
-        private async void HttpClientBtn_Click(object sender, RoutedEventArgs e)
-        {
-            await GetDataSimpleAsync();
-        }
-
+        #endregion
+        #region HttpClient标题
+        /// <summary>
+        /// 单击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void GetDataWithHeadersBtn_Click(object sender, RoutedEventArgs e)
         {
             await GetDataWithHeaders();
         }
-
+        /// <summary>
+        /// HttpClient标题
+        /// </summary>
+        /// <returns></returns>
         private async Task GetDataWithHeaders()
         {
             try
@@ -97,16 +116,53 @@ namespace NetworkWpf
             }
         }
 
-        private string ShowHeaders(string tittle, HttpHeaders headers) {
+        /// <summary>
+        /// HttpClient标题
+        /// </summary>
+        /// <param name="tittle"></param>
+        /// <param name="headers"></param>
+        /// <returns></returns>
+        private string ShowHeaders(string tittle, HttpHeaders headers)
+        {
             StringBuilder sb = new StringBuilder();
-            sb.Append(tittle+"\r\n");
+            sb.Append(tittle + "\r\n");
             foreach (var item in headers)
             {
-                string value = string.Join(" ",item.Value);
+                string value = string.Join(" ", item.Value);
                 sb.Append($"header:{item.Key} Value:{value} \r\n");
             }
             sb.Append("\r\n");
             return sb.ToString();
         }
+        #endregion
+        #region Uri和Uribuilder
+        private void UriBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string uri = "https://item.jd.com/12179822.html";
+            var page = new Uri(uri);
+            StringBuilder sb = new StringBuilder();
+            //请求头
+            sb.Append($"host:{page.Host},type:{page.HostNameType}\r\n");
+            sb.Append($"port:{page.Port}\r\n");
+            sb.Append($"path:{page.AbsolutePath}\r\n");
+            sb.Append($"query:{page.Query}\r\n");
+            foreach (var item in page.Segments)
+            {
+                sb.Append($"segment:{item}\r\n");
+            }
+            showText.Text = sb.ToString();
+        }
+        private void UribuilderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var builder = new UriBuilder();
+            builder.Host = "www.cninnovation.com";
+            builder.Port = 80;
+            builder.Path = "training/MVC";
+            Uri uri = builder.Uri;
+            showText.Text = uri.ToString();
+        }
+        #endregion
+
+
     }
 }
