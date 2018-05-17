@@ -7,11 +7,14 @@
         mc:Ignorable="d"
         Title="NetworkWindow">
     <DockPanel>
-        <StackPanel Orientation="Vertical" Width="100" DockPanel.Dock="Left">
+        <StackPanel Orientation="Vertical" Width="150" DockPanel.Dock="Left">
             <Button x:Name="HttpClientBtn" Content="HttpClient" Click="HttpClientBtn_Click"/>
             <Button x:Name="GetDataWithHeadersBtn" Content="GetDataWithHeaders" Click="GetDataWithHeadersBtn_Click"/>
             <Button x:Name="UriBtn" Content="Uri" Click="UriBtn_Click"/>
             <Button x:Name="UribuilderBtn" Content="Uribuilder" Click="UribuilderBtn_Click"/>
+            <Button x:Name="IpAddressBtn" Content="IpAddress" Click="IpAddressBtn_Click"/>
+            <Button x:Name="DnsBtn" Content="Dns" Click="DnsBtn_Click"/>
+            <Button x:Name="HttpClientUsingTCPBtn" Content="HttpClientUsingTCP" Click="HttpClientUsingTCPBtn_Click"/>
         </StackPanel>
         
         <TextBox x:Name="showText" Text="text" Width="600" TextWrapping="Wrap" ></TextBox>
