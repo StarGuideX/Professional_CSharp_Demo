@@ -198,7 +198,8 @@ namespace NetworkWpf
             await OnLookupAsync();
         }
 
-        private async Task OnLookupAsync() {
+        private async Task OnLookupAsync()
+        {
 
             IPHostEntry ipHost = await Dns.GetHostEntryAsync("www.orf.at");
             StringBuilder sb = new StringBuilder();
@@ -213,19 +214,21 @@ namespace NetworkWpf
         }
         #endregion
 
+        #region 使用TCP创建HTTP客户程序
         private async void HttpClientUsingTCPBtn_Click(object sender, RoutedEventArgs e)
         {
             showText.Text = await RequestHtmlAsync("10.1.1.11");
         }
 
         private const int ReadBufferSize = 1024;
-        private async Task<string> RequestHtmlAsync(string hostName) {
+        private async Task<string> RequestHtmlAsync(string hostName)
+        {
             StringBuilder sb = new StringBuilder();
             try
             {
                 using (var client = new TcpClient())
                 {
-                    await client.ConnectAsync(hostName,80);
+                    await client.ConnectAsync(hostName, 80);
                     NetworkStream stream = client.GetStream();
                     string header = "GET / HTTP/1.1\r\n" +
                         $"Host：{hostName}:80\r\n" +
@@ -242,7 +245,7 @@ namespace NetworkWpf
                         read = await stream.ReadAsync(buffer, 0, ReadBufferSize);
                         ms.Write(buffer, 0, read);
                         Array.Clear(buffer, 0, buffer.Length);
-                       
+
                     } while (read > 0);
                     ms.Seek(0, SeekOrigin.Begin);
                     var reader = new StreamReader(ms);
@@ -254,6 +257,12 @@ namespace NetworkWpf
                 return null;
             }
         }
+        #endregion
+
+        #region 创建TCP侦听器
+        
+        
+        #endregion
 
     }
 }
