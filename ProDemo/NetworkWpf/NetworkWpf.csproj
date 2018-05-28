@@ -59,7 +59,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TcpServer\CommandActions.cs" />
     <Compile Include="TcpServer\CustomProtocol.cs" />
+    <Compile Include="TcpServer\SessionManager.cs" />
+    <Compile Include="TcpServer\TcpServerMain.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NetworkWindow.xaml.cs">

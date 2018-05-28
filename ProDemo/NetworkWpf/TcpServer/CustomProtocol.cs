@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NetworkWpf.TcpServer
 {
-    class CustomProtocol
+    public class CustomProtocol
     {
         public const string SESSIONID = "ID";
         public const string COMMANDHELO = "HELO";
