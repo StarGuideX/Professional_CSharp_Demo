@@ -41,6 +41,12 @@ namespace ProDemo
                 netWindow.Show();
                 this.Close();
             }
+            else if (sender == ParallelBtn)
+            {
+                //ParallelWindow parallelWindow = new ParallelWindow();
+                //parallelWindow.Show();
+                //this.Close();
+            }
         }
     }
 }

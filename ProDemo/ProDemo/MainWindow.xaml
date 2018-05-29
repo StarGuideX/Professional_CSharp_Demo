@@ -9,5 +9,6 @@
     <StackPanel>
         <Button x:Name="AsyncBtn" Width="60" Height="30" Click="Common_Click"  Content="Async"></Button>
         <Button x:Name="NetworkBtn" Width="60" Height="30" Click="Common_Click"  Content="Network"></Button>
+        <Button x:Name="ParallelBtn" Width="100" Height="30" Click="Common_Click"  Content="任务和并行编程"></Button>
     </StackPanel>
 </Window>
