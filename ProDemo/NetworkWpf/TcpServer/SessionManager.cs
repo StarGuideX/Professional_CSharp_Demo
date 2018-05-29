@@ -36,6 +36,7 @@ namespace NetworkWpf.TcpServer
         internal bool TouchSession(string sessionId)
         {
             //Session  
+            return false;
         }
 
         internal string ParseSessionData(string sessionId, string requestAction)

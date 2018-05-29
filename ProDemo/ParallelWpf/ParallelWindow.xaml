@@ -1,0 +1,21 @@
+﻿<Window x:Class="ParallelWpf.ParallelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ParallelWpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <StackPanel Orientation="Vertical" Width="150" DockPanel.Dock="Left">
+            <Button x:Name="ParallelForBtn" Content="ParallelFor" Click="ParallelForBtn_Click"/>
+            <Button x:Name="ParallelForWithAsyncBtn" Content="ParallelForWithAsync" Click="ParallelForWithAsyncBtn_Click"/>
+            <Button x:Name="StopParallelForEarlyBtn" Content="StopParallelForEarly" Click="StopParallelForEarlyBtn_Click"/>
+            <Button x:Name="ParallelForWithInitBtn" Content="ParallelForWithInit" Click="ParallelForWithInitBtn_Click"/>
+            <Button x:Name="ParallForEachBtn" Content="ParallForEach" Click="ParallForEachBtn_Click"/>
+            
+        </StackPanel>
+
+        <TextBox x:Name="showText" Text="text" Width="600" TextWrapping="Wrap" ></TextBox>
+    </DockPanel>
+</Window>

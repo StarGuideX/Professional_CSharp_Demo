@@ -1,5 +1,6 @@
 ﻿using AsyncWpf;
 using NetworkWpf;
+using ParallelWpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,9 +44,9 @@ namespace ProDemo
             }
             else if (sender == ParallelBtn)
             {
-                //ParallelWindow parallelWindow = new ParallelWindow();
-                //parallelWindow.Show();
-                //this.Close();
+                ParallelWindow parallelWindow = new ParallelWindow();
+                parallelWindow.Show();
+                this.Close();
             }
         }
     }
