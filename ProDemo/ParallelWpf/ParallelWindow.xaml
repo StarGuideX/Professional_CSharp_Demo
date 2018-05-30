@@ -13,6 +13,7 @@
             <Button x:Name="StopParallelForEarlyBtn" Content="StopParallelForEarly" Click="StopParallelForEarlyBtn_Click"/>
             <Button x:Name="ParallelForWithInitBtn" Content="ParallelForWithInit" Click="ParallelForWithInitBtn_Click"/>
             <Button x:Name="ParallForEachBtn" Content="ParallForEach" Click="ParallForEachBtn_Click"/>
+            <Button x:Name="ParallelInvokeBtn" Content="ParallelInvoke" Click="ParallelInvokeBtn_Click"/>
             
         </StackPanel>
 

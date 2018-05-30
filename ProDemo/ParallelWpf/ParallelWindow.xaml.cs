@@ -50,5 +50,10 @@ namespace ParallelWpf
         {
             parallelSampleClass.ParallForEach();
         }
+
+        private void ParallelInvokeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            parallelSampleClass.ParallelInvoke();
+        }
     }
 }

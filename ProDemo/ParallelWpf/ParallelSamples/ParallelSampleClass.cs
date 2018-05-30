@@ -105,5 +105,18 @@ namespace ParallelWpf.ParallelSamples
             //    Console.WriteLine($"{s} {l}");
             //});
         }
+
+        public void ParallelInvoke()
+        {
+            Parallel.Invoke(Foo, Bar, Bar);
+        }
+
+        private void Foo() {
+            Console.WriteLine("Foo");
+        }
+        private void Bar()
+        {
+            Console.WriteLine("Bar");
+        }
     }
 }
