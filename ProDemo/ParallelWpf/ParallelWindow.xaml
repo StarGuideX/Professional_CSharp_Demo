@@ -14,9 +14,13 @@
             <Button x:Name="ParallelForWithInitBtn" Content="ParallelForWithInit" Click="ParallelForWithInitBtn_Click"/>
             <Button x:Name="ParallForEachBtn" Content="ParallForEach" Click="ParallForEachBtn_Click"/>
             <Button x:Name="ParallelInvokeBtn" Content="ParallelInvoke" Click="ParallelInvokeBtn_Click"/>
+            <Button x:Name="ThreadUsingThreadPoolBtn" Content="ThreadUsingThreadPool" Click="ThreadUsingThreadPoolBtn_Click"/>
+
+            <Button x:Name="RunSynchronousTaskBtn" Content="RunSynchronousTask" Click="RunSynchronousTaskBtn_Click"/>
+            <Button x:Name="LongRunningTaskBtn" Content="LongRunningTask" Click="LongRunningTaskBtn_Click"/>
+            <Button x:Name="TaskWithResultDemoBtn" Content="TaskWithResultDemo" Click="TaskWithResultDemoBtn_Click"/>
             
         </StackPanel>
-
         <TextBox x:Name="showText" Text="text" Width="600" TextWrapping="Wrap" ></TextBox>
     </DockPanel>
 </Window>

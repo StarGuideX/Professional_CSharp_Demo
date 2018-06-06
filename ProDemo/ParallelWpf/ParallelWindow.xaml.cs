@@ -1,4 +1,5 @@
 ﻿using ParallelWpf.ParallelSamples;
+using ParallelWpf.TaskSamples;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace ParallelWpf
     public partial class ParallelWindow : Window
     {
         private ParallelSampleClass parallelSampleClass = new ParallelSampleClass();
+        private TaskSamplesClass taskSamplesClass = new TaskSamplesClass();
         public ParallelWindow()
         {
             InitializeComponent();
@@ -54,6 +56,26 @@ namespace ParallelWpf
         private void ParallelInvokeBtn_Click(object sender, RoutedEventArgs e)
         {
             parallelSampleClass.ParallelInvoke();
+        }
+
+        private void ThreadUsingThreadPoolBtn_Click(object sender, RoutedEventArgs e)
+        {
+            taskSamplesClass.ThreadUsingThreadPool();
+        }
+
+        private void RunSynchronousTaskBtn_Click(object sender, RoutedEventArgs e)
+        {
+            taskSamplesClass.RunSynchronousTask();
+        }
+
+        private void LongRunningTaskBtn_Click(object sender, RoutedEventArgs e)
+        {
+            taskSamplesClass.LongRunningTask();
+        }
+
+        private void TaskWithResultDemoBtn_Click(object sender, RoutedEventArgs e)
+        {
+            taskSamplesClass.TaskWithResultDemo();
         }
     }
 }

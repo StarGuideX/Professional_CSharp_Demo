@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetworkWpf.TcpServer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -260,9 +261,14 @@ namespace NetworkWpf
         #endregion
 
         #region 创建TCP侦听器
-        
-        
+
+
         #endregion
 
+        private void TcpServerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            TcpServerMain tsm = new TcpServerMain();
+            tsm.run();
+        }
     }
 }
