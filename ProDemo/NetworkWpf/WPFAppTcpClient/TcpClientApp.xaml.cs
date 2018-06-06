@@ -122,7 +122,15 @@ namespace NetworkWpf.WPFAppTcpClient
             }
             return true;
         }
-
+        /// <summary>
+        /// 当用户单击Connect按钮时，调用方法OnConnect。
+        /// 建立到TCP服务器的连接，调用TcpClient类的ConnectAsync方法。
+        /// 如果连接处于失效模式，且再次调用OnConnect方法，就抛出一个SocketException异常，
+        /// 其中ErrorCode设置为0x2748。这里使用C# 6异常过滤器来处理SocketException，
+        /// 创建一个新的TcpClient,所以再次调用Onconnect可能会成功：
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OnConnect(object sender, RoutedEventArgs e)
         {
             try
@@ -141,7 +149,14 @@ namespace NetworkWpf.WPFAppTcpClient
                 throw;
             }
         }
-
+        /// <summary>
+        /// 请求发送到TCP服务器是由OnsendCommand方法处理的。
+        /// 这里的代码非常类似于服务器上的收发代码。
+        /// Getstream方法返回一个NetworkStream，这用于把（writebuffer）数据写入服务器，
+        /// 从服务器中读取ReadAsync数据：
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OnSendCommand(object sender, RoutedEventArgs e)
         {
             try
@@ -163,15 +178,28 @@ namespace NetworkWpf.WPFAppTcpClient
                 MessageBox.Show(ex.Message);
             }
         }
-
+        /// <summary>
+        /// 为了建立可以发送到服务器的数据，从OnSendCommand内部调用GetCommand方法。
+        /// GetCommand方法又调用方法GetSessionHeader来建立会话标识符，
+        /// 然后提取ActiveCommand属性（其类型是CustomProtocolCommand)，其中包含选中的命令名称和输入的数据
+        /// </summary>
+        /// <returns></returns>
         private string GetCommand() => $"{GetSessionHeader()}{ActiveCommand?.Name}{ActiveCommand?.Action}";
-
+        
+        /// <summary>
+        /// 建立会话标识符
+        /// </summary>
+        /// <returns></returns>
         private object GetSessionHeader()
         {
             if (string.IsNullOrEmpty(SessionId)) return string.Empty;
             return $"ID::{SessionId}::";
         }
 
+        /// <summary>
+        /// 从服务器接受数据后使用ParseMessage方法。这个方法拆分消息以设置Status和SessionId属性
+        /// </summary>
+        /// <param name="message"></param>
         private void ParseMessage(string message)
         {
             if (string.IsNullOrEmpty(message)) return;

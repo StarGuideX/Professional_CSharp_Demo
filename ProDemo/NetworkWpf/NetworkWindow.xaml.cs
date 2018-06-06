@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -267,8 +268,13 @@ namespace NetworkWpf
 
         private void TcpServerBtn_Click(object sender, RoutedEventArgs e)
         {
-            TcpServerMain tsm = new TcpServerMain();
-            tsm.run();
+            Thread t = new Thread(()=> {
+                TcpServerMain tsm = new TcpServerMain();
+                tsm.run();
+            });
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+  
         }
     }
 }
