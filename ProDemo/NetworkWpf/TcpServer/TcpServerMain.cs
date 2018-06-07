@@ -222,6 +222,4 @@ namespace NetworkWpf.TcpServer
             _sessionManager.CleanupAllSessions();
         }
     }
-
-
 }

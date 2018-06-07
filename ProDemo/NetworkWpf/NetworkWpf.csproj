@@ -62,11 +62,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HttpClientSample\HttpClientSampleClass.cs" />
+    <Compile Include="SomeTools\NetWorkTools.cs" />
     <Compile Include="TcpServer\CommandActions.cs" />
     <Compile Include="TcpServer\CustomProtocol.cs" />
     <Compile Include="TcpServer\SessionManager.cs" />
     <Compile Include="TcpServer\TcpServerMain.cs" />
-    <Compile Include="WPFAppTcpClient\CustomProtocolConmmand.cs" />
+    <Compile Include="UdpSample\UdpReceiver.cs" />
+    <Compile Include="UdpSample\UdpSender.cs" />
+    <Compile Include="WPFAppTcpClient\CustomProtocolCommand.cs" />
     <Compile Include="WPFAppTcpClient\TcpClientApp.xaml.cs">
       <DependentUpon>TcpClientApp.xaml</DependentUpon>
     </Compile>
@@ -111,7 +115,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="WebListenerSample\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
