@@ -16,6 +16,7 @@
             <Button x:Name="DnsBtn" Content="Dns" Click="DnsBtn_Click"/>
             <Button x:Name="HttpClientUsingTCPBtn" Content="HttpClientUsingTCP" Click="HttpClientUsingTCPBtn_Click"/>
             <Button x:Name="TcpServerBtn" Content="TcpServer" Click="TcpServerBtn_Click"/>
+            <Button x:Name="TcpClientBtn" Content="TcpClient" Click="TcpClientBtn_Click"/>
         </StackPanel>
         
         <TextBox x:Name="showText" Text="text" Width="600" TextWrapping="Wrap" ></TextBox>
