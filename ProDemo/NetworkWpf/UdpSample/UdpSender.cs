@@ -25,7 +25,7 @@ namespace NetworkWpf.UdpSample
             }
             IPEndPoint endpoint = GetIPEndPoint(port, hostname, broadcast, groupAddress, ipv6).Result;
             SenderStart(endpoint, broadcast, groupAddress);
-            ReadAsync(port, groupAddress).Wait();
+            Console.WriteLine("请按任意键退出");
             Console.ReadLine();
         }
 

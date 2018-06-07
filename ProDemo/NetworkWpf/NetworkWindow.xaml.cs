@@ -1,6 +1,7 @@
 ﻿using NetworkWpf.HttpClientSample;
 using NetworkWpf.SomeTools;
 using NetworkWpf.TcpServer;
+using NetworkWpf.UdpSample;
 using NetworkWpf.WPFAppTcpClient;
 using System;
 using System.Collections.Generic;
@@ -84,6 +85,26 @@ namespace NetworkWpf
         {
             TcpClientApp tc = new TcpClientApp();
             tc.Show();
+        }
+
+        private void UdpSenderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t = new Thread(()=> {
+                UdpSender udpSender = new UdpSender();
+                udpSender.SenderStart(new string[] { "-p", "9400", "-h", "localhost" });
+            });
+            t.SetApartmentState(ApartmentState.MTA);
+            t.Start();
+        }
+
+        private void UdpReceiverBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t = new Thread(()=> {
+                UdpReceiver receiver = new UdpReceiver();
+                receiver.ReveiverStart(new string[] { "-p", "9400" });
+            });
+            t.SetApartmentState(ApartmentState.MTA);
+            t.Start();
         }
     }
 }

@@ -17,8 +17,8 @@
             <Button x:Name="HttpClientUsingTCPBtn" Content="HttpClientUsingTCP" Click="HttpClientUsingTCPBtn_Click"/>
             <Button x:Name="TcpServerBtn" Content="TcpServer" Click="TcpServerBtn_Click"/>
             <Button x:Name="TcpClientBtn" Content="TcpClient" Click="TcpClientBtn_Click"/>
+            <Button x:Name="UdpSenderBtn" Content="UdpSender" Click="UdpSenderBtn_Click"/>
+            <Button x:Name="UdpReceiverBtn" Content="UdpReceiver" Click="UdpReceiverBtn_Click"/>
         </StackPanel>
-        
-        <TextBox x:Name="showText" Text="text" Width="600" TextWrapping="Wrap" ></TextBox>
     </DockPanel>
 </Window>
