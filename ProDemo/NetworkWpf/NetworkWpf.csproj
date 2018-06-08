@@ -63,6 +63,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HttpClientSample\HttpClientSampleClass.cs" />
+    <Compile Include="SocketSample\SocketServer.cs" />
     <Compile Include="SomeTools\NetWorkTools.cs" />
     <Compile Include="TcpServer\CommandActions.cs" />
     <Compile Include="TcpServer\CustomProtocol.cs" />
@@ -116,7 +117,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NewFolder1\" />
     <Folder Include="WebListenerSample\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
