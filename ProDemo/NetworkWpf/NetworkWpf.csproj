@@ -63,6 +63,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HttpClientSample\HttpClientSampleClass.cs" />
+    <Compile Include="SocketSample\SocketClient.cs" />
     <Compile Include="SocketSample\SocketServer.cs" />
     <Compile Include="SomeTools\NetWorkTools.cs" />
     <Compile Include="TcpServer\CommandActions.cs" />

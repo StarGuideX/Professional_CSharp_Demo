@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -117,28 +118,70 @@ namespace NetworkWpf.SocketSample
         /// </summary>
         /// <param name="socket"></param>
         /// <returns></returns>
-        private async Task CommunicateWithClientUsingReadersAndWritersAsync(Socket socket)
+        private async Task CommunicateWithClientUsingNetworkStreamAsync(Socket socket)
         {
-            IList<string> list = new List<string>();
-            var list2 =  list.Where(l => l == "123").ToList();
             try
             {
                 using (var stream = new NetworkStream(socket, ownsSocket: true))
                 {
-                    bool completed = true;
+
+                    bool completed = false;
                     do
                     {
-                        byte[] readbuffer = new byte[1024];
-                        int read = await stream.ReadAsync(readbuffer, 0, 1024);
-                        string fromClient = Encoding.UTF8.GetString(readbuffer, 0, read);
-                        Console.WriteLine($"read{read}bytes:{fromClient}");
+                        byte[] readBuffer = new byte[1024];
+                        int read = await stream.ReadAsync(readBuffer, 0, 1024);
+                        string fromClient = Encoding.UTF8.GetString(readBuffer, 0, read);
+                        Console.WriteLine($"read {read} bytes: {fromClient}");
                         if (string.Compare(fromClient, "shutdown", ignoreCase: true) == 0)
                         {
                             completed = true;
                         }
-                        byte[] writeBuffer = Encoding.UTF8.GetBytes($"echo{fromClient}");
+
+                        byte[] writeBuffer = Encoding.UTF8.GetBytes($"echo {fromClient}");
 
                         await stream.WriteAsync(writeBuffer, 0, writeBuffer.Length);
+
+                    } while (!completed);
+                }
+                Console.WriteLine("closed stream and client socket");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 通过套接字使用读取器和写入器
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <returns></returns>
+        private async Task CommunicateWithClientUsingReadersAndWritersAsync(Socket socket)
+        {
+            try
+            {
+                // 因为NetworkStream派生于stream类，还可以使用读取器和写入器访问套接字。
+                // 只需要注意读取器和写入器的生存期。调用读取器和与入器的Dispose方法，还会销毁底层的流。
+                // 所以要选择StreamReader和Streamwriter的构造函数，其中leaveOption参数可以设置为true。
+                // 之后，在销毁读取器和写入器时，就不会销毁底层的流了。NetworkStream在外层using语句的最后销毁，这又会关闭套接字，因为它拥有套接字。
+                using (var stream = new NetworkStream(socket, ownsSocket: true))
+                using (var reader = new StreamReader(stream, Encoding.UTF8, false, 8192, leaveOpen: true))
+                using (var writer = new StreamWriter(stream, Encoding.UTF8, 8192, leaveOpen: true))
+                {
+                    // 通过套接字使用写入器时，默认情况下，写入器不新数据，所以它们保存在缓存中，直到缓存己满。
+                    // 使用网络流，可能需要更快的回应。这里可以把AutoFIush属性设置为true也可以调用FlushAsync方法
+                    writer.AutoFlush = true;
+
+                    bool completed = true;
+                    do
+                    {
+                        string fromClient = await reader.ReadLineAsync();
+                        Console.WriteLine($"read{fromClient}");
+                        if (string.Compare(fromClient, "shutdown", ignoreCase: true) == 0)
+                        {
+                            completed = true;
+                        }
+                        await writer.WriteLineAsync($"echo {fromClient}");
                     } while (!completed);
                 }
                 Console.WriteLine($"关闭流和socket客户端");
