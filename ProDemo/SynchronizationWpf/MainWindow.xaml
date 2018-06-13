@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:SynchronizationWpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left">
+            <Button x:Name="DealLockSampleBtn" Content="DealLockSample" Click="DealLockSampleBtn_Click"></Button>
+        </StackPanel>
+        <TextBox x:Name="ShowTb"></TextBox>
+    </DockPanel>
 </Window>

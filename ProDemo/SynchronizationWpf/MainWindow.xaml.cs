@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SynchronizationWpf.SynchronizationSample;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace SynchronizationWpf
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void DealLockSampleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTb.Text += new SynchronizationSampleMain().DealLockSample();
         }
     }
 }

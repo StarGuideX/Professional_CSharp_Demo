@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SynchronizationSample\Job.cs" />
+    <Compile Include="SynchronizationSample\ShareState.cs" />
+    <Compile Include="SynchronizationSample\SynchronizationSampleMain.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
