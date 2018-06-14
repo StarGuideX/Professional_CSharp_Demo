@@ -10,8 +10,8 @@
         <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="100">
             <Button x:Name="RaceConditionBtn" Content="RaceCondition" Height="20" Click="RaceConditionBtn_Click"></Button>
             <Button x:Name="DealLockBtn" Content="DealLock" Height="20" Click="DealLockBtn_Click"></Button>
-            <Button x:Name="DealLockSampleBtn" Content="DealLockSample" Click="DealLockSampleBtn_Click"></Button>
+            <Button x:Name="RaceConditionSampleBtn" Content="RaceConditionSample" Click="RaceConditionSampleBtn_Click"></Button>
         </StackPanel>
-        <TextBlock x:Name="ShowTb"></TextBlock>
+        <TextBox x:Name="ShowTb"></TextBox>
     </DockPanel>
 </Window>

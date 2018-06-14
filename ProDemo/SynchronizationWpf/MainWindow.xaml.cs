@@ -48,9 +48,31 @@ namespace SynchronizationWpf
             new Task(new SampleTask(state1, state2).Deallock1).Start();
             new Task(new SampleTask(state1, state2).Deallock2).Start();
         }
-        private void DealLockSampleBtn_Click(object sender, RoutedEventArgs e)
+
+        private void RaceConditionSampleBtn_Click(object sender, RoutedEventArgs e)
         {
-            ShowTb.Text += new SynchronizationSampleMain().DealLockSample();
+            // ShareState和Job都不锁定
+            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByNoLockAll();
+
+            // ShareState，不锁定
+            // Job中方法DoTheJobByJobMethodLock，锁定
+            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByJobMethodLock();
+
+            // ShareStatePropertyLock中的属性，锁定
+            // Job方法DoTheJobByShareStatePropertyLock，不锁定
+            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStatePropertyLock();
+
+            //  ShareStatePropertyLock中的属性，锁定
+            // Job方法DoTheJobByShareStatePropertyLockAndJobMethodLock，锁定
+            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStatePropertyLockAndJobMethodLock();
+
+            // ShareStateMethodLock中的方法，锁定
+            // Job方法DoTheJobByShareStateMethodLock，不锁定
+            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStateMethodLock();
+
+            // ShareStateMethodLock中的方法，锁定
+            // Job方法DoTheJobByShareStateMethodLockAndJobMethodLock，锁定
+            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStateMethodLockAndJobMethodLock();
         }
     }
 }

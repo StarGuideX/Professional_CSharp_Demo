@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AD8B3B2B-0645-4412-A052-F10C5672610A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SynchronizationWpf</RootNamespace>
     <AssemblyName>SynchronizationWpf</AssemblyName>
@@ -58,10 +58,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-	<Compile Include="SynchronizationSample\Job.cs" />
+    <Compile Include="SynchronizationSample\Demo.cs" />
+    <Compile Include="SynchronizationSample\Job.cs" />
     <Compile Include="SynchronizationSample\ShareState.cs" />
     <Compile Include="SynchronizationSample\SynchronizationSampleMain.cs" />
-	    <Compile Include="ThreadingIssues\SampleTask.cs" />
+    <Compile Include="ThreadingIssues\SampleTask.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
