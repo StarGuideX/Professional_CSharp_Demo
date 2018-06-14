@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:SynchronizationWpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="100">
+            <Button x:Name="RaceConditionBtn" Content="RaceCondition" Height="20" Click="RaceConditionBtn_Click"></Button>
+            <Button x:Name="DealLockBtn" Content="DealLock" Height="20" Click="DealLockBtn_Click"></Button>
+        </StackPanel>
+        <TextBlock x:Name="WriteTB"></TextBlock>
+    </DockPanel>
 </Window>
