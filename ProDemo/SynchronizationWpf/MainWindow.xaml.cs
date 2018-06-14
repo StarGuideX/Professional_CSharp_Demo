@@ -1,4 +1,5 @@
 ﻿using SynchronizationWpf.ThreadingIssues;
+using SynchronizationWpf.SynchronizationSample;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,10 @@ namespace SynchronizationWpf
 
             new Task(new SampleTask(state1, state2).Deallock1).Start();
             new Task(new SampleTask(state1, state2).Deallock2).Start();
+        }
+        private void DealLockSampleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTb.Text += new SynchronizationSampleMain().DealLockSample();
         }
     }
 }
