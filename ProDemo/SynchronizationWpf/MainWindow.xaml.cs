@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SynchronizationWpf.AsyncDelegateSample;
 
 namespace SynchronizationWpf
 {
@@ -52,7 +53,7 @@ namespace SynchronizationWpf
         private void RaceConditionSampleBtn_Click(object sender, RoutedEventArgs e)
         {
             // ShareState和Job都不锁定
-            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByNoLockAll();
+            //ShowTb.Text += new SynchronizationSampleMain().DoTheJobByNoLockAll();
 
             // ShareState，不锁定
             // Job中方法DoTheJobByJobMethodLock，锁定
@@ -60,19 +61,30 @@ namespace SynchronizationWpf
 
             // ShareStatePropertyLock中的属性，锁定
             // Job方法DoTheJobByShareStatePropertyLock，不锁定
-            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStatePropertyLock();
+            //ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStatePropertyLock();
 
             //  ShareStatePropertyLock中的属性，锁定
             // Job方法DoTheJobByShareStatePropertyLockAndJobMethodLock，锁定
-            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStatePropertyLockAndJobMethodLock();
+            //ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStatePropertyLockAndJobMethodLock();
 
             // ShareStateMethodLock中的方法，锁定
             // Job方法DoTheJobByShareStateMethodLock，不锁定
-            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStateMethodLock();
+            //ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStateMethodLock();
 
             // ShareStateMethodLock中的方法，锁定
             // Job方法DoTheJobByShareStateMethodLockAndJobMethodLock，锁定
-            ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStateMethodLockAndJobMethodLock();
+            //ShowTb.Text += new SynchronizationSampleMain().DoTheJobByShareStateMethodLockAndJobMethodLock();
+            //总共循环次数713992
+            //总共循环次数1000000
+            //总共循环次数247661
+            //总共循环次数1000000
+            //总共循环次数1000000
+            //总共循环次数1000000
+        }
+
+        private void AsyncDelegateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTb.Text += new AsyncDelegate().StartDemo();
         }
     }
 }
