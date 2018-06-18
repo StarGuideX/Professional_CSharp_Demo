@@ -12,6 +12,7 @@
             <Button x:Name="DealLockBtn" Content="DealLock" Height="20" Click="DealLockBtn_Click"></Button>
             <Button x:Name="RaceConditionSampleBtn" Content="RaceConditionSample" Click="RaceConditionSampleBtn_Click"></Button>
             <Button x:Name="AsyncDelegateBtn" Content="AsyncDelegate" Click="AsyncDelegateBtn_Click"></Button>
+            <Button x:Name="SingletonWPFBtn" Content="SingletonWPF" Click="SingletonWPFBtn_Click"></Button>
         </StackPanel>
         <TextBox x:Name="ShowTb"></TextBox>
     </DockPanel>

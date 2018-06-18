@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SynchronizationWpf.AsyncDelegateSample;
+using SynchronizationWpf.MutexSample;
 
 namespace SynchronizationWpf
 {
@@ -85,6 +86,12 @@ namespace SynchronizationWpf
         private void AsyncDelegateBtn_Click(object sender, RoutedEventArgs e)
         {
             ShowTb.Text += new AsyncDelegate().StartDemo();
+        }
+
+        private void SingletonWPFBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SingletonWPF singletonWPF = new SingletonWPF();
+            singletonWPF.Show();
         }
     }
 }
