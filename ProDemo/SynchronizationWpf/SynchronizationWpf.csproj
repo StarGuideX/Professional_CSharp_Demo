@@ -59,9 +59,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AsyncDelegateSample\AsyncDelegate.cs" />
+    <Compile Include="BarrierSample\BarrierDemo.cs" />
+    <Compile Include="EventSampleWithCountdownEvent\Calculator.cs" />
+    <Compile Include="EventSampleWithCountdownEvent\EventDemoWithCountdownEvent.cs" />
+    <Compile Include="EventSample\Calculator.cs" />
+    <Compile Include="EventSample\EventDemo.cs" />
     <Compile Include="MutexSample\SingletonWPF.xaml.cs">
       <DependentUpon>SingletonWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SemaphoreSample\SemaphoreDemo.cs" />
     <Compile Include="SynchronizationSample\Demo.cs" />
     <Compile Include="SynchronizationSample\Job.cs" />
     <Compile Include="SynchronizationSample\ShareState.cs" />
@@ -111,9 +117,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SemaphoreSample\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

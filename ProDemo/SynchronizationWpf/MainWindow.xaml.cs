@@ -16,6 +16,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SynchronizationWpf.AsyncDelegateSample;
 using SynchronizationWpf.MutexSample;
+using SynchronizationWpf.SemaphoreSample;
+using SynchronizationWpf.EventSample;
+using SynchronizationWpf.EventSampleWithCountdownEvent;
 
 namespace SynchronizationWpf
 {
@@ -92,6 +95,21 @@ namespace SynchronizationWpf
         {
             SingletonWPF singletonWPF = new SingletonWPF();
             singletonWPF.Show();
+        }
+
+        private void SemaphoreBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTb.Text += new SemaphoreDemo().SemaphoreStart();
+        }
+
+        private void ManualResetEventSlimBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTb.Text += new EventDemo().EventDemoStart();
+        }
+
+        private void CountdownEventBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTb.Text += new EventDemoWithCountdownEvent().EventDemoWithCountdownEventStart();
         }
     }
 }

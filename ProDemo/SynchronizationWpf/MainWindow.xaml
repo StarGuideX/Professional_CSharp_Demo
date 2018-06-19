@@ -7,12 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
 <DockPanel>
-        <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="100">
+        <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="150">
             <Button x:Name="RaceConditionBtn" Content="RaceCondition" Height="20" Click="RaceConditionBtn_Click"></Button>
             <Button x:Name="DealLockBtn" Content="DealLock" Height="20" Click="DealLockBtn_Click"></Button>
             <Button x:Name="RaceConditionSampleBtn" Content="RaceConditionSample" Click="RaceConditionSampleBtn_Click"></Button>
             <Button x:Name="AsyncDelegateBtn" Content="AsyncDelegate" Click="AsyncDelegateBtn_Click"></Button>
             <Button x:Name="SingletonWPFBtn" Content="SingletonWPF" Click="SingletonWPFBtn_Click"></Button>
+            <Button x:Name="SemaphoreBtn" Content="Semaphore" Click="SemaphoreBtn_Click"></Button>
+            <Button x:Name="ManualResetEventSlimBtn" Content="ManualResetEventSlim" Click="ManualResetEventSlimBtn_Click"></Button>
+            <Button x:Name="CountdownEventBtn" Content="CountdownEvent" Click="CountdownEventBtn_Click"></Button>
+            
         </StackPanel>
         <TextBox x:Name="ShowTb"></TextBox>
     </DockPanel>
