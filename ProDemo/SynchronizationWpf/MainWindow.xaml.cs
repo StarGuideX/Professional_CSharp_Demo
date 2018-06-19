@@ -19,6 +19,8 @@ using SynchronizationWpf.MutexSample;
 using SynchronizationWpf.SemaphoreSample;
 using SynchronizationWpf.EventSample;
 using SynchronizationWpf.EventSampleWithCountdownEvent;
+using SynchronizationWpf.BarrierSample;
+using SynchronizationWpf.ReaderWriterSample;
 
 namespace SynchronizationWpf
 {
@@ -110,6 +112,16 @@ namespace SynchronizationWpf
         private void CountdownEventBtn_Click(object sender, RoutedEventArgs e)
         {
             ShowTb.Text += new EventDemoWithCountdownEvent().EventDemoWithCountdownEventStart();
+        }
+
+        private void BarrierBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTb.Text += new BarrierDemo().BarrierDemoStart();
+        }
+
+        private void ReaderWriterLockSlimBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTb.Text += new ReaderWriterLockSlimDemo().ReaderWriterLockSlimDemoStart();
         }
     }
 }

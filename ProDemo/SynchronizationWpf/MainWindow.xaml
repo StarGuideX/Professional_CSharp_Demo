@@ -16,7 +16,8 @@
             <Button x:Name="SemaphoreBtn" Content="Semaphore" Click="SemaphoreBtn_Click"></Button>
             <Button x:Name="ManualResetEventSlimBtn" Content="ManualResetEventSlim" Click="ManualResetEventSlimBtn_Click"></Button>
             <Button x:Name="CountdownEventBtn" Content="CountdownEvent" Click="CountdownEventBtn_Click"></Button>
-            
+            <Button x:Name="BarrierBtn" Content="Barrier" Click="BarrierBtn_Click"></Button>
+            <Button x:Name="ReaderWriterLockSlimBtn" Content="ReaderWriterLockSlim" Click="ReaderWriterLockSlimBtn_Click"></Button>
         </StackPanel>
         <TextBox x:Name="ShowTb"></TextBox>
     </DockPanel>

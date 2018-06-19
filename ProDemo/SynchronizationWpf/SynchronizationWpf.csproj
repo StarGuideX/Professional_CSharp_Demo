@@ -67,6 +67,7 @@
     <Compile Include="MutexSample\SingletonWPF.xaml.cs">
       <DependentUpon>SingletonWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReaderWriterSample\ReaderWriterLockSlimDemo.cs" />
     <Compile Include="SemaphoreSample\SemaphoreDemo.cs" />
     <Compile Include="SynchronizationSample\Demo.cs" />
     <Compile Include="SynchronizationSample\Job.cs" />
