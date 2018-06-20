@@ -58,7 +58,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AsyncDelegateSample\AsyncDelegate.cs" />
     <Compile Include="BarrierSample\BarrierDemo.cs" />
     <Compile Include="EventSampleWithCountdownEvent\Calculator.cs" />
     <Compile Include="EventSampleWithCountdownEvent\EventDemoWithCountdownEvent.cs" />

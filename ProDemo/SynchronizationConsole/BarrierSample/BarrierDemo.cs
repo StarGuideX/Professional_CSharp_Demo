@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SynchronizationWpf.BarrierSample
+namespace SynchronizationConsole
 {
-    public static class BarrierDemo
-    {
-        public static void BarrierDemoStart()
+public static class BarrierDemo
+{
+    /// <summary>
+    /// BarrierDemoStart()方法创建一个Barrier实例。在构造函数中，可以指定参与者的数量。
+    /// 在该示例中，这个数量是3(numberTasks+1)，因为该示例创建了两个任务，BarrierDemoStart()方法本身也是一个参与者。
+    /// 使用Task.Run创建两个任务，把遍历集合的任务分为两个部分。
+    /// 启动该任务后，使用SignalAndWait()方法，BarrierDemoStart()方法在完成时发出信号，
+    /// 并等待所有其他参与者或者发出完成的信号，或者从Barrier类中删除它们。
+    /// 一旦所有的参与者都准备好，就提取任务的结果，并使用Zip()扩展方法把它们合并起来。接着进行下一次迭代，等待任务的下一个结果。
+    /// </summary>
+    public static void BarrierDemoStart()
         {
             const int numberTasks = 2;
             const int partitionSize = 1000000;
@@ -63,13 +72,18 @@ namespace SynchronizationWpf.BarrierSample
             Console.ReadLine();
         }
 
-        public static IEnumerable<string> FillData(int size)
-        {
-            var r = new Random();
-            return Enumerable.Range(0, size).Select(x => GetString(r));
-        }
+    /// <summary>
+    /// 创建一个集合，并用随机字符串填充它。
+    /// </summary>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static IEnumerable<string> FillData(int size)
+    {
+        var r = new Random();
+        return Enumerable.Range(0, size).Select(x => GetString(r));
+    }
 
-        private static string GetString(Random r)
+    private static string GetString(Random r)
         {
             var sb = new StringBuilder(6);
             for (int i = 0; i < 6; i++)
@@ -79,12 +93,32 @@ namespace SynchronizationWpf.BarrierSample
             return sb.ToString();
         }
 
-        private static void LogBarrierInformation(string info, Barrier barrier)
+    /// <summary>
+    /// 义一个辅助方法，来显示Barrier的信息：
+    /// </summary>
+    /// <param name="info"></param>
+    /// <param name="barrier"></param>
+    private static void LogBarrierInformation(string info, Barrier barrier)
         {
             Console.WriteLine($"Task{Task.CurrentId}：{info} | 屏障中参与者总数：{barrier.ParticipantCount} | 屏障中未在当前阶段发出信号的参与者数{barrier.ParticipantsRemaining} | 屏障的当前阶段的编号：{barrier.CurrentPhaseNumber}");
         }
 
-        private static void CalculationInTask(int jobNumber, int partitionSize, Barrier barrier, IList<string>[] coll, int loops, int[][] results)
+    /// <summary>
+    /// 定义了任务执行的作业。通过参数接收一个包含4项的元组。
+    /// 第3个参数是对Barrier实例的引用。用于计算的数据是数组IList<string>。
+    /// 最后一个参数是int锯齿数组，用于在任务执行过程中写出结果。
+    /// 任务把处理放在一个循环中。每一次循环中，都处理化IList<string>[] 的数组元素。每个循环完成
+    /// 后，任务通过调用SignalAndWait方法，发出做好了准备的信号，并等待，直到所有的其他任务也准备好处理为止。
+    /// 这个循环会继续执行，直到任务完全完成为止。
+    /// 接着，任务就会使用RemoveParticipant()方法从Barrier类中删除它自己。
+    /// </summary>
+    /// <param name="jobNumber"></param>
+    /// <param name="partitionSize"></param>
+    /// <param name="barrier"></param>
+    /// <param name="coll"></param>
+    /// <param name="loops"></param>
+    /// <param name="results"></param>
+    private static void CalculationInTask(int jobNumber, int partitionSize, Barrier barrier, IList<string>[] coll, int loops, int[][] results)
         {
             LogBarrierInformation("CalculationInTask 开始", barrier);
 
@@ -112,5 +146,5 @@ namespace SynchronizationWpf.BarrierSample
             barrier.RemoveParticipant();
             LogBarrierInformation("完成任务，删除Participant", barrier);
         }
-    }
+}
 }

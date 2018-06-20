@@ -11,7 +11,6 @@
             <Button x:Name="RaceConditionBtn" Content="RaceCondition" Height="20" Click="RaceConditionBtn_Click"></Button>
             <Button x:Name="DealLockBtn" Content="DealLock" Height="20" Click="DealLockBtn_Click"></Button>
             <Button x:Name="RaceConditionSampleBtn" Content="RaceConditionSample" Click="RaceConditionSampleBtn_Click"></Button>
-            <Button x:Name="AsyncDelegateBtn" Content="AsyncDelegate" Click="AsyncDelegateBtn_Click"></Button>
             <Button x:Name="SingletonWPFBtn" Content="SingletonWPF" Click="SingletonWPFBtn_Click"></Button>
             <Button x:Name="SemaphoreBtn" Content="Semaphore" Click="SemaphoreBtn_Click"></Button>
             <Button x:Name="ManualResetEventSlimBtn" Content="ManualResetEventSlim" Click="ManualResetEventSlimBtn_Click"></Button>

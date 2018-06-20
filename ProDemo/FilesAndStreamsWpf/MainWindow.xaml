@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
-        <StackPanel Orientation="Vertical">
-            <Button></Button>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Width="150">
+            <Button x:Name="WPFEditorBtn" Content="WPFEditor" Click="WPFEditorBtn_Click"></Button>
         </StackPanel>
     </DockPanel>
 </Window>

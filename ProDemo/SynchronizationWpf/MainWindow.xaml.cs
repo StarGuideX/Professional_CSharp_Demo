@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SynchronizationWpf.AsyncDelegateSample;
 using SynchronizationWpf.MutexSample;
 using SynchronizationWpf.SemaphoreSample;
 using SynchronizationWpf.EventSample;
@@ -88,11 +87,6 @@ namespace SynchronizationWpf
             //总共循环次数1000000
         }
 
-        private void AsyncDelegateBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ShowTb.Text += new AsyncDelegate().StartDemo();
-        }
-
         private void SingletonWPFBtn_Click(object sender, RoutedEventArgs e)
         {
             SingletonWPF singletonWPF = new SingletonWPF();
@@ -116,7 +110,7 @@ namespace SynchronizationWpf
 
         private void BarrierBtn_Click(object sender, RoutedEventArgs e)
         {
-            ShowTb.Text += new BarrierDemo().BarrierDemoStart();
+            //ShowTb.Text += new BarrierDemo().BarrierDemoStart();
         }
 
         private void ReaderWriterLockSlimBtn_Click(object sender, RoutedEventArgs e)

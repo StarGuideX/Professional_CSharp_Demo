@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FilesAndStreamsWpf.EditorSample;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace FilesAndStreamsWpf
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void WPFEditorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            WPFEditor we = new WPFEditor();
+            we.Show();
         }
     }
 }
