@@ -96,5 +96,67 @@ namespace FilesAndStreamsConsole
                 Console.WriteLine($"创建时间{file.CreationTime:F}");
             }
         }
+
+        public static void ReadingAFileLineByLine(string fileName)
+        {
+            //一次读取文本所有行
+            string[] lines = File.ReadAllLines(fileName);
+            //或者逐行读取
+            //IEnumerable<string> lines = File.ReadLines(fileName);
+            int i = 1;
+
+            foreach (var line in lines)
+            {
+                Console.WriteLine($"{i++}.{line}");
+            }
+        }
+
+        public static void WriteFile()
+        {
+            //创建文件并写入文本
+            string fileName = Path.Combine(GetDocumentsFolder(), "movies.txt");
+            string[] movies = { "变形金刚1", "变形金刚2", "变形金刚3", "变形金刚4", "变形金刚5" };
+
+            File.WriteAllLines(fileName, movies);
+            //文本追加
+            string[] MoreMovies = { "复仇者联盟1", "复仇者联盟2", "复仇者联盟3", "复仇者联盟4", "复仇者联盟5" };
+
+            File.AppendAllLines(fileName, movies);
+        }
+
+        /// <summary>
+        /// 在一个目录及其所有子目录中，删除所有以"副本"结尾的文件，以防存在另一个具有相同名称和大小的文件。
+        /// </summary>
+        /// <param name="directory"></param>
+        /// <param name="checkOnly"></param>
+        public static void DeleteDuplicateFiles(string directory, bool checkOnly)
+        {
+            //搜索包含当前目录和所有子目录
+            IEnumerable<string> filenames = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
+
+            string previousFileName = string.Empty;
+            // 在foreach语句中，所迭代的当前文件与上一次迭代的文件做比较。
+            // 如果文件名相同，只有"副本"后缀不同，文件的大小也一样，就调用FileInfo.Delete删除复制的文件
+            foreach (var fileName in filenames)
+            {
+                string previousName = Path.GetFileNameWithoutExtension(previousFileName);
+                if (!string.IsNullOrEmpty(previousFileName) &&
+            previousName.EndsWith("副本") &&
+            fileName.StartsWith(previousFileName.Substring(0, previousFileName.LastIndexOf(" - 副本"))))
+                {
+                    var copiedFile = new FileInfo(previousFileName);
+                    var originalFile = new FileInfo(fileName);
+                    if (copiedFile.Length == originalFile.Length)
+                    {
+                        Console.WriteLine($"删除{originalFile.FullName}");
+                        if (!checkOnly)
+                        {
+                            copiedFile.Delete();
+                        }
+                    }
+                }
+                previousFileName = fileName;
+            }
+        }
     }
 }

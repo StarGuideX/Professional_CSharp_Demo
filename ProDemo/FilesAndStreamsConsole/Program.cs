@@ -11,7 +11,10 @@ namespace FilesAndStreamsConsole
     {
         static void Main(string[] args)
         {
-            PickDemo(); 
+            while (true)
+            {
+                PickDemo();
+            }
         }
 
         private static void PickDemo()
@@ -21,6 +24,8 @@ namespace FilesAndStreamsConsole
             Console.WriteLine("3-CreateAndCopyFile(path输入2获得)");
             Console.WriteLine("4-Filelnfo-文件信息");
             Console.WriteLine("5-Filelnfo-修改文件属性");
+            Console.WriteLine("5-Filelnfo-修改文件属性");
+            Console.WriteLine("7-Filelnfo-删除重复文件");
             var read = Console.ReadLine();
             switch (read)
             {
@@ -42,11 +47,17 @@ namespace FilesAndStreamsConsole
                 case "5":
                     WorkingWithFilesAndFoldersDemo.ChangeFileProperties();
                     break;
+                case "6":
+                    WorkingWithFilesAndFoldersDemo.ReadingAFileLineByLine("filename");
+                    WorkingWithFilesAndFoldersDemo.WriteFile();
+                    break;
+                case "7":
+                    WorkingWithFilesAndFoldersDemo.DeleteDuplicateFiles(directory: @"C:\Users\Stone\Desktop\Test", checkOnly: false);
+                    break;
                 default:
                     break;
             }
-
-            Console.Read();
+            Console.WriteLine($"已完成{read},按回车键继续");
         }
     }
 }
