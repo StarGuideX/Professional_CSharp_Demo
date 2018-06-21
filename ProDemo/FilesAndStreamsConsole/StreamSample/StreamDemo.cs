@@ -36,13 +36,13 @@ namespace FilesAndStreamsConsole
             }
         }
 
-        const string SampleFilePath = "./";
         const int RECORDSIZE = 44;
 
         public static void RandomAccessSample()
         {
             try
             {
+                string SampleFilePath = Environment.CurrentDirectory + @"\Sampledata.data";
                 using (FileStream stream = File.OpenRead(SampleFilePath))
                 {
                     byte[] buffer = new byte[RECORDSIZE];
@@ -78,7 +78,7 @@ namespace FilesAndStreamsConsole
 
         public static async Task CreateSampleFile(int nRecords)
         {
-
+            string SampleFilePath = Environment.CurrentDirectory + @"\Sampledata.data";
             FileStream stream = File.Create(SampleFilePath);
             using (var writer = new StreamWriter(stream))
             {
