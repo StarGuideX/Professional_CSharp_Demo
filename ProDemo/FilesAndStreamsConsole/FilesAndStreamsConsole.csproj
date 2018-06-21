@@ -46,6 +46,7 @@
     <Compile Include="DriverInfoSample\DriverInfoDemo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamSample\StreamDemo.cs" />
     <Compile Include="WorkingWithFilesAndFoldersSample\WorkingWithFilesAndFoldersDemo.cs" />
   </ItemGroup>
   <ItemGroup>
