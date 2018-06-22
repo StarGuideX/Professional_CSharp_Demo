@@ -19,6 +19,7 @@ namespace FilesAndStreamsConsole
 
         private static void PickDemo()
         {
+            Console.WriteLine("**********选项**********");
             Console.WriteLine("1-DriverInfo-驱动器信息");
             Console.WriteLine("2-Path");
             Console.WriteLine("3-CreateAndCopyFile(path输入2获得)");
@@ -30,13 +31,23 @@ namespace FilesAndStreamsConsole
             Console.WriteLine("9-FileStream-写入流");
             Console.WriteLine("10-FileStream-复制流");
             Console.WriteLine("11-暂无-随机访问流");
+
             #region ReaderWriterDemo
             Console.WriteLine("12-StreamReader-使用StreamReader读取文件");
             Console.WriteLine("13-StreamWriter-使用StreamWriter写入文件");
-            Console.WriteLine("14-BinaryWriterr-使用BinaryWriter写入二进制文件");
-            
-
+            Console.WriteLine("14-BinaryWriter-使用BinaryWriter写入二进制文件");
+            Console.WriteLine("15-BinaryReader-使用BinaryReader读取二进制文件（需要先执行14）");
             #endregion
+
+            #region DeflateStream
+            Console.WriteLine("16-DeflateStream-压缩文件");
+            Console.WriteLine("17-DeflateStream-解压缩文件（需要先执行16，只输出文本的第一行）");
+            Console.WriteLine("18-ZipArchive-压缩文件Zip");
+            #endregion
+
+
+            Console.WriteLine("**********选项**********");
+
             string testFileName = Environment.CurrentDirectory + @"\Test.txt";
 
             var read = Console.ReadLine();
@@ -89,8 +100,24 @@ namespace FilesAndStreamsConsole
                     string binaryWriterTestFileName = Environment.CurrentDirectory + @"\Test(binaryWriter).txt";
                     ReaderWriterDemo.WriteFileUsingBinaryWriter(binaryWriterTestFileName);
                     break;
-
-                    
+                case "15":
+                    string binaryReaderName = Environment.CurrentDirectory + @"\Test(binaryWriter).txt";
+                    ReaderWriterDemo.ReadFileUsingBinaryReader(binaryReaderName);
+                    break;
+                case "16":
+                    // string name = 
+                    CompressFileDemo.CompressFile(Environment.CurrentDirectory + @"\Test.txt", Environment.CurrentDirectory + @"\CompressFile");
+                    break;
+                case "17":
+                    CompressFileDemo.DecompressFile(Environment.CurrentDirectory + @"\CompressFile");
+                    break;
+                case "18":
+                    CompressFileDemo.CreateZipFile(Environment.CurrentDirectory, Environment.CurrentDirectory + @"\Zip\ZipFile.zip");
+                    break;
+                case "19":
+                    //FileMonitorDemo
+                    break;
+                   
                 default:
                     break;
             }

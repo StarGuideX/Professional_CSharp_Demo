@@ -66,5 +66,22 @@ namespace FilesAndStreamsConsole
             }
         }
 
+        /// <summary>
+        /// 使用BinaryReader读取二进制文件
+        /// </summary>
+        /// <param name="binFile"></param>
+        public static void ReadFileUsingBinaryReader(string binFile)
+        {
+            var inputStream = File.Open(binFile, FileMode.Open);
+
+            using (var reader = new BinaryReader(inputStream))
+            {
+                double d = reader.ReadDouble();
+                int i = reader.ReadInt32();
+                long l = reader.ReadInt64();
+                string s = reader.ReadString();
+                Console.WriteLine($"d：{d}，i：{i}，l：{l}，s：{s}");
+            }
+        }
     }
 }
