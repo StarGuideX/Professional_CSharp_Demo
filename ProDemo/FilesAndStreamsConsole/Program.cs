@@ -32,17 +32,25 @@ namespace FilesAndStreamsConsole
             Console.WriteLine("10-FileStream-复制流");
             Console.WriteLine("11-暂无-随机访问流");
 
-            #region ReaderWriterDemo
+            #region StreamReader、StreamWriter、BinaryWrite、BinaryReader
             Console.WriteLine("12-StreamReader-使用StreamReader读取文件");
             Console.WriteLine("13-StreamWriter-使用StreamWriter写入文件");
             Console.WriteLine("14-BinaryWriter-使用BinaryWriter写入二进制文件");
             Console.WriteLine("15-BinaryReader-使用BinaryReader读取二进制文件（需要先执行14）");
             #endregion
 
-            #region DeflateStream
+            #region DeflateStream、ZipArchive
             Console.WriteLine("16-DeflateStream-压缩文件");
             Console.WriteLine("17-DeflateStream-解压缩文件（需要先执行16，只输出文本的第一行）");
             Console.WriteLine("18-ZipArchive-压缩文件Zip");
+            #endregion
+
+            //FileSystemWatcher
+            Console.WriteLine("19-FileSystemWatcher-正在观察debug文件夹下的文件，筛选器为.txt后缀的文件");
+
+            #region MemoryMappedFiles
+            Console.WriteLine("20-MemoryMappedViewAccessor-访问器创建内存映射文件");
+            Console.WriteLine("21-MemoryMappedViewStream-流创建内存映射文件");
             #endregion
 
 
@@ -105,7 +113,6 @@ namespace FilesAndStreamsConsole
                     ReaderWriterDemo.ReadFileUsingBinaryReader(binaryReaderName);
                     break;
                 case "16":
-                    // string name = 
                     CompressFileDemo.CompressFile(Environment.CurrentDirectory + @"\Test.txt", Environment.CurrentDirectory + @"\CompressFile");
                     break;
                 case "17":
@@ -115,9 +122,17 @@ namespace FilesAndStreamsConsole
                     CompressFileDemo.CreateZipFile(Environment.CurrentDirectory, Environment.CurrentDirectory + @"\Zip\ZipFile.zip");
                     break;
                 case "19":
-                    //FileMonitorDemo
+                    FileMonitorDemo.WatchFiles(Environment.CurrentDirectory, "*.txt");
                     break;
-                   
+                case "20":
+                    MemoryMappedFilesDemo.MemoryMappedFilesStart();
+                    break;
+                case "21":
+                    MemoryMappedFilesDemo.MemoryMappedFilesStartUsingStreams();
+                    break;
+                case "22":
+                    AnonymousPipesDemo.AnonymousPipesStart();
+                    break;
                 default:
                     break;
             }
