@@ -22,13 +22,6 @@ namespace SafeConsole
             WindowsPrincipal principal = ShowPrincipal(identity);
             ShowClaims(principal.Claims);
         }
-        //returnidentity;
-        //        所有的标识类，例如Windowsldentity，都实现了Ildentity接口，该接口包含3个属性
-        //        (AuthenticationType、IsAuthenticated和N囵，便于所有的派生标识类实现它们。Windowsldentity
-        //        的其他属性都专用于这种标识。
-        //运行应用程序，信息如以下代码片段所示。身份验证类型显示CloudAP，因为我使用Microsoft
-        //        Live账户登录到系统。如果使用ActiveDirectory'ActiveDirectory就显示在验证类型中：
-
 
         /// <summary>
         /// ShowIdentityInformation方法通过调用WindowsIdentity的静态方法GetCurrent，
