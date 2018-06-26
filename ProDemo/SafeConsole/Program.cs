@@ -22,6 +22,7 @@ namespace SafeConsole
             Console.WriteLine("1-Windows Principal-验证用户信息");
             Console.WriteLine("2-SHA512-创建和验证签名");
             Console.WriteLine("3-ECDiffieHellmanP521-安全的数据交换");
+            Console.WriteLine("4-RSA-使用RSA签名和散列");
             Console.WriteLine("**********选项**********");
 
             var read = Console.ReadLine();
@@ -36,6 +37,10 @@ namespace SafeConsole
                 case "3":
                     SecureTransferDemo.SecureTransferStart();
                     break;
+                case "4":
+                    RSADemo.RSAStart();
+                    break;
+                    
                 default:
                     break;
             }

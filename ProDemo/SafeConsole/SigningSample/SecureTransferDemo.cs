@@ -30,10 +30,13 @@ namespace SafeConsole
             }
             catch (Exception ex)
             {
-                throw;
+                Console.WriteLine(ex.Message);
             }
         }
 
+        /// <summary>
+        /// 使用EC DiffieHellman 521算法创建密钥
+        /// </summary>
         private static void CreateKeys()
         {
             _aliceKey = CngKey.Create(CngAlgorithm.ECDiffieHellmanP521);
@@ -42,15 +45,19 @@ namespace SafeConsole
             _bobPubKeyBlob = _aliceKey.Export(CngKeyBlobFormat.EccPublicBlob);
         }
 
-        //在AliceSendsDataAsync()方法中，包含文本字符的字符串使用Encoding类转换为一个字节数组。
-        //创建一个ECDiffeHellmanCng对象，用Alice的密钥对初始化它。Alice调用DeriveKeyMatenal()方
-        //法，从而使用其密钥对和Bob的公钥创建一个对称密钥。返回的对称密钥使用对称算法AES加密
-        //数据。AesCwptoServiceProvider需要密钥和一个初始化矢量（IV）。IV从GenerateIV()方法中动态生
-        //成，对称密钥用ECDiffe-He11man算法交换，但还必须交换IVO从安全性角度来看，在网络上传输
-        //未加密的IV是可行的一一只是密钥交换必须是安全的。IV存储为内存流中的第一项内容，其后是
-        //加密的数据，其中，Cryptostream类使用AesCryptoServiceProvider类创建的在访问内存
-        //流中的加密数据之前，必须关闭加密流。否则，加密数据就会丢失最后的位。
-
+        /// <summary>
+        /// 在AliceSendsDataAsync()方法中，包含文本字符的字符串使用Encoding类转换为一个字节数组。
+        /// 创建一个ECDiffieHellmanCng对象，用Alice的密钥对初始化它。
+        /// Alice调用DeriveKeyMaterial()方法，从而使用其密钥对和Bob的公钥创建一个对称密钥。
+        /// 返回的对称密钥使用对称算法AES加密数据。
+        /// AesCryptoServiceProvider需要密钥和一个初始化矢量（IV）。
+        /// IV从GenerateIV()方法中动态生成，对称密钥用EC Diffe-He11man算法交换，但还必须交换IV。
+        /// 从安全性角度来看，在网络上传输未加密的IV是可行的一一只是密钥交换必须是安全的。
+        /// IV存储为内存流中的第一项内容，其后是加密的数据，其中，CryptoStream类使用AesCryptoServiceProvider类创建的encryptor。
+        /// 在访问内存流中的加密数据之前，必须关闭加密流。否则，加密数据就会丢失最后的位。
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         private static async Task<byte[]> AliceSendsDataAsync(string message)
         {
             Console.WriteLine($"Alice发送了信息{message}");
@@ -84,6 +91,19 @@ namespace SafeConsole
             return encryptedData;
         }
 
+        /// <summary>
+        /// Bob从BobReceivesDataAsync()方法的参数中接收加密数据。
+        /// 首先，必须读取未加密的初始化矢量。AesCryptoServiceProvider类的BlockSize属性返回块的位数。
+        /// 位数除以8，就可以计算出字节数。最快的方式是把数据右移3位。
+        /// 右移1位就是除以2，右移2位就是除以4，右移3位就是除以8。
+        /// 在for循环中，包含未加密IV的原字节的前几个字节写入数组iv中。
+        /// 接着用Bob的密钥对实例化一个ECDiffieHellmanCng对象。
+        /// 使用Alice的公钥，从DeriveKeyMaterial0方法中返回对称密钥。
+        /// 比较Alice和Bob创建的对称密钥，可以看出所创建的密钥值相同。
+        /// 使用这个对称密钥和初始化矢量，来自Alice的消息就可以用AesCryptoServiceProvider类解密。
+        /// </summary>
+        /// <param name="encryptedData"></param>
+        /// <returns></returns>
         private static async Task BobReceivesDataAsync(byte[] encryptedData)
         {
             Console.WriteLine($"Bob已接收加密数据");

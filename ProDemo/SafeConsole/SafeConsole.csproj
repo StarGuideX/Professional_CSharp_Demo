@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProtectionSample\DataProtectionDemo.cs" />
+    <Compile Include="DataProtectionSample\MySafe.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RSASample\RSADemo.cs" />
     <Compile Include="SigningSample\SecureTransferDemo.cs" />
     <Compile Include="SigningSample\SigningDemo.cs" />
     <Compile Include="WindowsPrincipalSample\WindowsPrincipalDemo.cs" />
