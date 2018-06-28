@@ -51,13 +51,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeConsoleApp", "SafeConso
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CompositionDemo", "CompositionDemo", "{B9A0FB00-2A4B-4DC1-BA54-022BB18CB1CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompositionConsoleApp", "CompositionConsoleApp\CompositionConsoleApp.csproj", "{A91D3F66-7C05-49B2-A3B1-E141F469AF87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompositionConsoleApp", "CompositionConsoleApp\CompositionConsoleApp.csproj", "{A91D3F66-7C05-49B2-A3B1-E141F469AF87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompositionUWP", "CompositionUWP\CompositionUWP.csproj", "{EC9EDD58-735E-4601-9008-CB3E0FFBB02D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UICalculator", "UICalculator\UICalculator.csproj", "{71F1CBFC-CF74-470E-9F16-D65E94FBDD1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UICalculator", "UICalculator\UICalculator.csproj", "{71F1CBFC-CF74-470E-9F16-D65E94FBDD1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompositionWpf", "CompositionWpf\CompositionWpf.csproj", "{C4552C7F-C20B-4CE9-82A9-83658E4B849B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CompositionShared", "CompositionShared\CompositionShared.shproj", "{DE05F979-4987-4425-8E28-8AEA99D5E5CB}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		CompositionShared\CompositionShared.projitems*{de05f979-4987-4425-8e28-8aea99d5e5cb}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -369,6 +376,22 @@ Global
 		{71F1CBFC-CF74-470E-9F16-D65E94FBDD1F}.Release|x64.Build.0 = Release|Any CPU
 		{71F1CBFC-CF74-470E-9F16-D65E94FBDD1F}.Release|x86.ActiveCfg = Release|Any CPU
 		{71F1CBFC-CF74-470E-9F16-D65E94FBDD1F}.Release|x86.Build.0 = Release|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Debug|x64.Build.0 = Debug|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Debug|x86.Build.0 = Debug|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Release|ARM.Build.0 = Release|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Release|x64.ActiveCfg = Release|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Release|x64.Build.0 = Release|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Release|x86.ActiveCfg = Release|Any CPU
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -391,6 +414,8 @@ Global
 		{A91D3F66-7C05-49B2-A3B1-E141F469AF87} = {B9A0FB00-2A4B-4DC1-BA54-022BB18CB1CD}
 		{EC9EDD58-735E-4601-9008-CB3E0FFBB02D} = {B9A0FB00-2A4B-4DC1-BA54-022BB18CB1CD}
 		{71F1CBFC-CF74-470E-9F16-D65E94FBDD1F} = {B9A0FB00-2A4B-4DC1-BA54-022BB18CB1CD}
+		{C4552C7F-C20B-4CE9-82A9-83658E4B849B} = {B9A0FB00-2A4B-4DC1-BA54-022BB18CB1CD}
+		{DE05F979-4987-4425-8E28-8AEA99D5E5CB} = {B9A0FB00-2A4B-4DC1-BA54-022BB18CB1CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA564CE0-AAD1-440E-B74B-7CBBE1306E11}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UICalculator.FuelEconomyShared
+namespace CompositionShared.FuelEconomyShared
 {
     public class FuelEconomyType
     {

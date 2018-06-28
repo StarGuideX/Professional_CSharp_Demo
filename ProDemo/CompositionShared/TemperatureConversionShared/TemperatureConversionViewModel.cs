@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UICalculator.CalculatorUtils;
 
-namespace UICalculator.TemperatureConversionShared
+namespace CompositionShared.TemperatureConversionShared
 {
     /// <summary>
     /// 该用户控件为温度转换提供了一个简单的实现方式。

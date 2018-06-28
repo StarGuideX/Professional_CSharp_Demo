@@ -4,7 +4,7 @@ using System.Composition;
 using System.Text;
 using UICalculator.CalculatorContract;
 
-namespace UICalculator.TemperatureConversionShared
+namespace CompositionShared.TemperatureConversionShared
 {
     [Export(typeof(ICalculatorExtension))]
     //[ICalculatorExtensionMetadata]
