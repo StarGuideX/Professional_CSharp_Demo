@@ -103,7 +103,7 @@ namespace LookupWhatsNew
                 return;
             }
             DateTime modifiedDate = lastModifiedAttribute.DateModified;
-
+            //修改日期 < 选择的日期
             if (modifiedDate < backDateTo)
             {
                 return;
