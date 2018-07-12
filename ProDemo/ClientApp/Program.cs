@@ -27,16 +27,22 @@ namespace ClientApp
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// 用动态类型调用成员
+        /// </summary>
         private static void ReflectionNew()
         {
             double x = 3;
             double y = 4;
             dynamic calc = GetCalculator(CalculatorLibPath);
-            double result = calc.Add(x,y);
+            double result = calc.Add(x, y);
             Console.WriteLine($"{x}加{y}结果:{result}—dynamic");
 
         }
 
+        /// <summary>
+        /// 用反射API调用成员
+        /// </summary>
         private static void ReflectionOld()
         {
             double x = 3;
