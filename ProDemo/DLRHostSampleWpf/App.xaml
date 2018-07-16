@@ -1,8 +1,8 @@
-﻿<Application x:Class="ParallelWpf.App"
+﻿<Application x:Class="DLRHostSampleWpf.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ParallelWpf"
-             StartupUri="ParallelWindow.xaml">
+             xmlns:local="clr-namespace:DLRHostSampleWpf"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
          
     </Application.Resources>

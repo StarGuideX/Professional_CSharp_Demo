@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ParallelWpf.ParallelSamples
+namespace ParallelConsole.ParallelSamples
 {
-    public class ParallelSampleClass
+    public class ParallelDemo
     {
         /// <summary>
         /// 线程和任务标识符
@@ -16,7 +15,7 @@ namespace ParallelWpf.ParallelSamples
         /// <returns></returns>
         public void Log(string prefix)
         {
-            Console.WriteLine($"{prefix} task: {Task.CurrentId}, thread: {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine($"{prefix} 任务: {Task.CurrentId}, 线程: {Thread.CurrentThread.ManagedThreadId}");
         }
         /// <summary>
         /// Parallel.For
@@ -35,7 +34,7 @@ namespace ParallelWpf.ParallelSamples
         }
 
         /// <summary>
-        /// 
+        /// Parallel.For异步
         /// </summary>
         /// <returns></returns>
         public void ParallelForWithAsync()
@@ -70,15 +69,17 @@ namespace ParallelWpf.ParallelSamples
             Console.WriteLine($"Is Completed：{result.IsCompleted}");
             Console.WriteLine($"lowest break iteration:{result.LowestBreakIteration}");
         }
-
+        /// <summary>
+        /// Parallel.For()的初始化,这个方法完美地累加了大量数据集合的结果
+        /// </summary>
         public void ParallelForWithInit()
         {
             ParallelLoopResult result = Parallel.For<string>(0, 10, () =>
-              {
-                  //每个线程调用一次
-                  Log($"init thread");
-                  return $"{Thread.CurrentThread.ManagedThreadId}";
-              },
+            {
+                //每个线程调用一次
+                Log($"init thread");
+                return $"{Thread.CurrentThread.ManagedThreadId}";
+            },
               (i, pls, strl) =>
               {
                   //每个成员都会调用
@@ -93,6 +94,9 @@ namespace ParallelWpf.ParallelSamples
               });
         }
 
+        /// <summary>
+        /// Parallel.ForEach的简单示例
+        /// </summary>
         public void ParallForEach()
         {
             string[] data = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
@@ -106,17 +110,22 @@ namespace ParallelWpf.ParallelSamples
             //});
         }
 
+        /// <summary>
+        /// 通过lnvoke调用多个方法
+        /// </summary>
         public void ParallelInvoke()
         {
             Parallel.Invoke(Foo, Bar, Bar);
         }
 
-        private void Foo() {
+        private void Foo()
+        {
             Console.WriteLine("Foo");
         }
         private void Bar()
         {
             Console.WriteLine("Bar");
         }
+
     }
 }

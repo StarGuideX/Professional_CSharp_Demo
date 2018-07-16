@@ -108,10 +108,6 @@
       <Project>{BF51B835-E87D-4898-A1C2-3B34E7F2FF58}</Project>
       <Name>NetworkWpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ParallelWpf\ParallelWpf.csproj">
-      <Project>{259f042d-8775-49e6-a1fc-d796613fd344}</Project>
-      <Name>ParallelWpf</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

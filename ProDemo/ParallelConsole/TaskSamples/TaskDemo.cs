@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ParallelWpf.TaskSamples
+namespace ParallelConsole.TaskSamples
 {
-    public class TaskSamplesClass
+    public class TaskDemo
     {
         public void TaskMethod(object o)
         {
@@ -28,7 +27,10 @@ namespace ParallelWpf.TaskSamples
             }
         }
 
-        public void ThreadUsingThreadPool()
+        /// <summary>
+        /// 使用线程池的任务
+        /// </summary>
+        public void TasksUsingThreadPool()
         {
             var tf = new TaskFactory();
             Task t1 = tf.StartNew(TaskMethod, "using a task factory");
@@ -38,6 +40,9 @@ namespace ParallelWpf.TaskSamples
             Task t4 = Task.Run(() => TaskMethod("using the Run menthod"));
         }
 
+        /// <summary>
+        /// 同步任务
+        /// </summary>
         public void RunSynchronousTask()
         {
             TaskMethod("Just the main thread");
@@ -45,10 +50,25 @@ namespace ParallelWpf.TaskSamples
             t1.RunSynchronously();
         }
 
+        /// <summary>
+        /// 使用单独线程的任务——TaskCreationOptions
+        /// </summary>
         public void LongRunningTask()
         {
             var t1 = new Task(TaskMethod, "long running", TaskCreationOptions.LongRunning);
             t1.Start();
+        }
+
+        /// <summary>
+        /// 任务的结果
+        /// </summary>
+        public void TaskWithResultDemo()
+        {
+            var t1 = new Task<Tuple<int, int>>(TaskWithResult, Tuple.Create(8, 3));
+            t1.Start();
+            Console.WriteLine(t1.Result);
+            t1.Wait();
+            Console.WriteLine($"result from task:{t1.Result.Item1}{t1.Result.Item2}");
         }
 
         private Tuple<int, int> TaskWithResult(object division)
@@ -61,13 +81,6 @@ namespace ParallelWpf.TaskSamples
             return Tuple.Create(result, remider);
         }
 
-        public void TaskWithResultDemo()
-        {
-            var t1 = new Task<Tuple<int, int>>(TaskWithResult, Tuple.Create(8, 3));
-            t1.Start();
-            Console.WriteLine(t1.Result);
-            t1.Wait();
-            Console.WriteLine($"result from task:{t1.Result.Item1}{t1.Result.Item2}");
-        }
+        private 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DynamicConsole.DecompileSample;
+using DynamicConsole.DynamicSample;
 using System;
 
 namespace DynamicConsole
@@ -7,24 +8,34 @@ namespace DynamicConsole
     {
         static void Main(string[] args)
         {
-            dynamic dyn;
+            while (true)
+            {
+                PickDemo();
+            }
+        }
 
-            dyn = 100;
-            Console.WriteLine(dyn.GetType());
-            Console.WriteLine(dyn);
+        private static void PickDemo()
+        {
+            Console.WriteLine("**********选项**********");
+            Console.WriteLine("1-Dynamic-将Dynamic可以在运行时转为任何类型（也可以多次转换）");
+            Console.WriteLine("2-Dynamic-在获得具体类型之前所需要的时间很多");
 
-            dyn = "这是个字符串";
-            Console.WriteLine(dyn.GetType());
-            Console.WriteLine(dyn);
+            Console.WriteLine("**********选项**********");
 
-            dyn = new Person() { FirstName = "名", LastName = "姓" };
-            Console.WriteLine(dyn.GetType());
-            Console.WriteLine($"{dyn.LastName}{dyn.FirstName}");
+            var read = Console.ReadLine();
+            switch (read)
+            {
+                case "1":
+                    new DynamicDemo().DynamicDemoStart();
+                    break;
+                case "2":
+                    new DecompileDemo().DecompileStart();
+                    break;
 
-
-            new DecompileDemo().DecompileStart();
-
-            Console.ReadLine();
+                default:
+                    break;
+            }
+            Console.WriteLine($"已完成{read}");
         }
     }
 }
