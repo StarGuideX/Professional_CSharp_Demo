@@ -1,4 +1,6 @@
-﻿using ParallelConsole.ParallelSamples;
+﻿using ParallelConsole.CancellationSamples;
+using ParallelConsole.ParallelSamples;
+using ParallelConsole.SimpleDataFlowSamples;
 using ParallelConsole.TaskSamples;
 using System;
 
@@ -8,7 +10,8 @@ namespace ParallelConsole
     {
         private static ParallelDemo parallelDemo = new ParallelDemo();
         private static TaskDemo taskDemo = new TaskDemo();
-        
+        private static CancellationDemo cancellationDemo = new CancellationDemo();
+        private static SimpleDataFlowDemo simpleDataFlowDemo = new SimpleDataFlowDemo();
         static void Main(string[] args)
         {
             while (true)
@@ -30,6 +33,13 @@ namespace ParallelConsole
             Console.WriteLine("8-Task-启动任务-同步任务");
             Console.WriteLine("9-Task-启动任务-使用单独线程的任务（TaskCreation0ptions）");
             Console.WriteLine("10-Task-任务的结果-Task(Func<object, TResult> function, object state)");
+            Console.WriteLine("11-Task-连续的任务-Task.ContinueWith)");
+            Console.WriteLine("12-Task-任务层次结构-父子任务)");
+            Console.WriteLine("13-CancellationTokenSource-Parallel.For()方法的取消)");
+            Console.WriteLine("14-CancellationTokenSource-任务的取消)");
+            Console.WriteLine("15-ActionBlock");
+            Console.WriteLine("16-BufferBlock");
+            Console.WriteLine("17-连接块");
             Console.WriteLine("**********选项**********");
 
             var read = Console.ReadLine();
@@ -64,6 +74,27 @@ namespace ParallelConsole
                     break;
                 case "10":
                     taskDemo.TaskWithResultDemo();
+                    break;
+                case "11":
+                    taskDemo.ContinuationTasks();
+                    break;
+                case "12":
+                    taskDemo.ParentAndChild();
+                    break;
+                case "13":
+                    cancellationDemo.CancelParallelFor();
+                    break;
+                case "14":
+                    cancellationDemo.CancelTask();
+                    break;
+                case "15":
+                    simpleDataFlowDemo.SimpleDataFlowDemoUsingActionBlock();
+                    break;
+                case "16":
+                    simpleDataFlowDemo.SimpleDataFlowDemoUsingBufferBlock();
+                    break;
+                case "17":
+                    simpleDataFlowDemo.ContectBlockDemoStart();
                     break;
                 default:
                     break;
