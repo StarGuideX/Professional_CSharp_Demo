@@ -10,6 +10,7 @@ namespace ClientConsole
     {
         static void Main(string[] args)
         {
+            Console.ReadLine();
         }
     }
 }

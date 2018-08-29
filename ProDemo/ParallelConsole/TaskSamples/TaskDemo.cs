@@ -81,6 +81,54 @@ namespace ParallelConsole.TaskSamples
             return Tuple.Create(result, remider);
         }
 
-        private 
+        public void ContinuationTasks()
+        {
+            Task t1 = new Task(DoOnFirst);
+            Task t2 = t1.ContinueWith(DoOnSecond);
+            Task t3 = t1.ContinueWith(DoOnSecond);
+            Task t4 = t2.ContinueWith(DoOnSecond);
+            t1.Start();
+        }
+
+
+        private void DoOnFirst()
+        {
+            Console.WriteLine($"做一些任务{Task.CurrentId}");
+            Task.Delay(3000).Wait();
+        }
+
+        private void DoOnSecond(Task t)
+        {
+            Console.WriteLine($"任务{t.Id}已完成");
+            Console.WriteLine($"本次任务ID：{Task.CurrentId}");
+            Console.WriteLine("做一些清理工作");
+            Task.Delay(3000).Wait();
+        }
+
+        public void ParentAndChild()
+        {
+            var parent = new Task(ParentTask);
+            parent.Start();
+            Task.Delay(2000).Wait();
+            Console.WriteLine(parent.Status);
+            Task.Delay(4000).Wait();
+            Console.WriteLine(parent.Status);
+        }
+
+        private void ParentTask()
+        {
+            Console.WriteLine($"Task id{Task.CurrentId}");
+            var child = new Task(ChildTask);
+            child.Start();
+            Task.Delay(1000).Wait();
+            Console.WriteLine("父任务开始子任务");
+        }
+
+        private void ChildTask()
+        {
+            Console.WriteLine("子任务");
+            Task.Delay(5000).Wait();
+            Console.WriteLine("子任务已完成");
+        }
     }
 }
