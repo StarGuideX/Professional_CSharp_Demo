@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,8 +8,17 @@ namespace UsingDependencyInjection
 {
     public class UsingDependencyInjectionMain
     {
-        const string ConnectionString = @"";
+        public ServiceProvider Container { get; private set; }
 
-        var services = new ServiceCollection()
+        public void InitializeServices() {
+            const string ConnectionString = @"server=(localdb)\MSSQLLocalDb;database=Books;trusted_connection=true";
+
+            var services = new ServiceCollection();
+            services.AddTransient<BooksService>().AddEntityFrameworkSqlServer()
+                .AddDbContext<BooksContext>(options => options.UseSqlServer(ConnectionString));
+
+            Container = services.BuildServiceProvider();
+        }
+
     }
 }
