@@ -11,10 +11,10 @@ namespace Intro
 {
     class Program
     {
-        static async Task Main()
+        static void Main(string[] args)
         {
             var p = new Program();
-            await p.CreateTheDatabaseAsync();
+            // await p.CreateTheDatabaseAsync();
             Console.Read();
         }
 

@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
+using UsingDependencyInjection;
 
 namespace EFCoreSamples
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task MainAsync(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            UsingDependencyInjectionMain usingDependencyInjectionMain = new UsingDependencyInjectionMain();
+            await usingDependencyInjectionMain.StartAsync();
+            Console.ReadLine();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace UsingDependencyInjection
         private readonly BooksContext _booksContext;
         public BooksService(BooksContext context) => _booksContext = context;
 
-        public async Task<string> AddBooksAsync()
+        public async Task AddBooksAsync()
         {
             var book1 = new Book
             {
@@ -31,18 +31,17 @@ namespace UsingDependencyInjection
 
             await _booksContext.Books.AddRangeAsync(book1, book2, book3);
             int records = await _booksContext.SaveChangesAsync();
-            return $"添加了{records}条";
+            Console.WriteLine($"添加了{records}条");
         }
 
-        public async Task<string> ReadBooksAsync()
+        public async Task ReadBooksAsync()
         {
             List<Book> books = await _booksContext.Books.ToListAsync();
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var b in books)
             {
-                stringBuilder.AppendLine($"{b.Title} {b.Publisher}");
+                Console.WriteLine($"{b.Title} {b.Publisher}");
             }
-            return stringBuilder.ToString();
         }
     }
 }
