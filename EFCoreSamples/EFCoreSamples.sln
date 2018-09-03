@@ -23,13 +23,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelationUsingAnnotations", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelationUsingFluentAPI", "RelationUsingFluentAPI\RelationUsingFluentAPI.csproj", "{D26C4AFE-8D4C-4160-8F4D-79757F48A756}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPHWithConventions", "TPHWithConventions\TPHWithConventions.csproj", "{366FC025-D1CB-4FCD-932D-B45D134C70FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TPHWithConventions", "TPHWithConventions\TPHWithConventions.csproj", "{366FC025-D1CB-4FCD-932D-B45D134C70FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPHWithFluentAPI", "TPHWithFluentAPI\TPHWithFluentAPI.csproj", "{359A82A0-0227-4805-BB6A-2AA0D15C8897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TPHWithFluentAPI", "TPHWithFluentAPI\TPHWithFluentAPI.csproj", "{359A82A0-0227-4805-BB6A-2AA0D15C8897}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableSplitting", "TableSplitting\TableSplitting.csproj", "{4B64DA22-8DEA-45D6-8AB9-8C6B528B4085}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableSplitting", "TableSplitting\TableSplitting.csproj", "{4B64DA22-8DEA-45D6-8AB9-8C6B528B4085}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwnedEntities", "OwnedEntities\OwnedEntities.csproj", "{D183BB53-83C1-4007-AF5A-BA1C1A34FD79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OwnedEntities", "OwnedEntities\OwnedEntities.csproj", "{D183BB53-83C1-4007-AF5A-BA1C1A34FD79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionsSample", "TransactionsSample\TransactionsSample.csproj", "{70EB95A8-3C69-4DD7-8417-3D00D4821109}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{D183BB53-83C1-4007-AF5A-BA1C1A34FD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D183BB53-83C1-4007-AF5A-BA1C1A34FD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D183BB53-83C1-4007-AF5A-BA1C1A34FD79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70EB95A8-3C69-4DD7-8417-3D00D4821109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70EB95A8-3C69-4DD7-8417-3D00D4821109}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70EB95A8-3C69-4DD7-8417-3D00D4821109}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70EB95A8-3C69-4DD7-8417-3D00D4821109}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
