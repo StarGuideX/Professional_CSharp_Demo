@@ -21,6 +21,7 @@
         public int BookId { get; set; }
         public Book Book { get; set; }
 
-
+        public TextFont TextFont { get; set; }
+        public TextFont TitleFont { get; set; }
     }
 }

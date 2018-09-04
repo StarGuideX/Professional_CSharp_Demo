@@ -34,6 +34,8 @@ namespace EFCoreModelUsingFluentAPI.Services
         //RelationUsingAnnotations----
         //MenusWithDataAnnotations----
         //intro
+        //TableSplitting
+        //OwnedEntities
 
         /// <summary>
         /// 使用BooksContext注册新的logger
