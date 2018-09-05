@@ -32,8 +32,8 @@ namespace EFCoreModelUsingFluentAPI
             Console.WriteLine("2-删除数据库");
             Console.WriteLine("3-添加多本书");
             Console.WriteLine("4-基本查询-查询所有Book");
-            Console.WriteLine("5-原始Sql查询-查询所有Book(先执行3)");
-            Console.WriteLine("6-编译查询-")
+            Console.WriteLine("5-原始Sql查询-查询所有Title为Book的Book(先执行3)");
+            Console.WriteLine("6-编译查询-查询所有Title为Book的Book(先执行3)");
             //Console.WriteLine("5—根据title查询(请先执行4)");
 
             string index = Console.ReadLine();
@@ -78,6 +78,29 @@ namespace EFCoreModelUsingFluentAPI
                     break;
                 case "6":
                     service.CompiledQuery("Book");
+                    break;
+                case "7":
+                    TextFont titleFont = new TextFont() { FontName= "FontName", FontColor=new FontColor() { FontColorName = "red" } };
+                    TextFont textFont = new TextFont() { FontName = "FontName1", FontColor = new FontColor() { FontColorName = "red1" } };
+                    IList<Page> pages = new List<Page>()
+                    {
+                        new Page("Content1"){ TitleFont=titleFont,TextFont=textFont },
+                        new Page("Content2"){ TitleFont=titleFont,TextFont=textFont },
+                        new Page("Content3"){ TitleFont=titleFont,TextFont=textFont },
+                        new Page("Content4"){ TitleFont=titleFont,TextFont=textFont },
+                        new Page("Content5"){ TitleFont=titleFont,TextFont=textFont },
+
+                    };
+
+
+                    Task t1 = service.AddPagesAsync(pages);
+                    t1.Wait();
+                    Task t2 = service.DeletePageAsync(1);
+                    t2.Wait();
+                    Task t3 = service.DeletePageAsync(2);
+                    t3.Wait();
+                    Task t4 = service.QueryDeletedPagesAsync();
+                    t4.Wait();
                     break;
                 default:
                     Console.WriteLine("已关闭连接，请重新启动");

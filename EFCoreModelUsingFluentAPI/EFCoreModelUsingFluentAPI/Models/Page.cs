@@ -24,5 +24,10 @@
 
         public TextFont TextFont { get; set; }
         public TextFont TitleFont { get; set; }
+
+        public override string ToString()
+        {
+            return $"PageId:{_pageId},Content{Content}";
+        }
     }
 }

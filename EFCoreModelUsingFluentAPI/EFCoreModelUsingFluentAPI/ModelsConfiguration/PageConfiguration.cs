@@ -60,7 +60,7 @@ namespace EFCoreModelUsingFluentAPI.Models
             builder.Property<DateTime>(LastUpdated);
 
 
-            builder.OwnsOne(p => p.TitleFont).OwnsOne<FontColor>(a => a.FontColor, tbuilder =>
+            builder.OwnsOne(p => p.TitleFont).OwnsOne<FontColor>(t => t.FontColor, tbuilder =>
             {
                 tbuilder.Property(p => p.FontColorName).HasColumnName("TitleFontColorName");
             });

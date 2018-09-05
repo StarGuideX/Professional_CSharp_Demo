@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static EFCoreModelUsingFluentAPI.Models.PageColumnNames;
 
 namespace EFCoreModelUsingFluentAPI.Services
 {
@@ -114,16 +115,57 @@ namespace EFCoreModelUsingFluentAPI.Services
         /// <returns></returns>
         public async Task UseEFCunctions(string titleSegment)
         {
-                string likeExpression = $"%{titleSegment}%";
-                IList<Book> books = await _booksContext.Books.Where(
-                b => EF.Functions.Like(b.Title,
-                likeExpression)).ToListAsync();
-                foreach (var b in books)
-                {
-                    Console.WriteLine(b.ToString());
-                }
+            string likeExpression = $"%{titleSegment}%";
+            IList<Book> books = await _booksContext.Books.Where(
+            b => EF.Functions.Like(b.Title,
+            likeExpression)).ToListAsync();
+            foreach (var b in books)
+            {
+                Console.WriteLine(b.ToString());
+            }
+        }
+        /// <summary>
+        /// 验证阴影属性
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddPagesAsync(IEnumerable<Page> pages)
+        {
+            await _booksContext.Pages.AddRangeAsync(pages);
+            await _booksContext.SaveChangesAsync();
+            Console.WriteLine($"Pages 添加完毕");
+            Console.WriteLine();
         }
 
+        /// <summary>
+        /// 删除、有阴影属性isDeleted会设为true
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeletePageAsync(int id)
+        {
+            Page p = await _booksContext.Pages.FindAsync(id);
+            if (p == null) return;
+            _booksContext.Pages.Remove(p);
+            await _booksContext.SaveChangesAsync();
+            Console.WriteLine("运行DeletePageAsync完毕");
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// 验证DeleteBookAsync方法
+        /// </summary>
+        /// <returns></returns>
+        public async Task QueryDeletedPagesAsync()
+        {
+            IEnumerable<Page> deletedPages =
+            await _booksContext.Pages
+            .Where(b => EF.Property<bool>(b, IsDeleted))
+            .ToListAsync();
+            foreach (var page in deletedPages)
+            {
+                Console.WriteLine($"deleted: {page}");
+            }
+        }
 
         /// <summary>
         /// 使用BooksContext注册新的logger

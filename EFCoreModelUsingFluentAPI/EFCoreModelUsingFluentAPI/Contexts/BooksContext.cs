@@ -18,6 +18,7 @@ namespace EFCoreModelUsingFluentAPI.Contexts
         /// <param name="options"></param>
         public BooksContext(DbContextOptions<BooksContext> options) : base(options) { }
 
+        public DbSet<Page> Pages { get; set; }
         public DbSet<Book> Books { get; set; }
 
 
