@@ -1,9 +1,12 @@
 ﻿using EFCoreModelUsingFluentAPI.Contexts;
+using EFCoreModelUsingFluentAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,31 +14,116 @@ namespace EFCoreModelUsingFluentAPI.Services
 {
     public class BooksService
     {
+        #region 使用依赖注入
         private BooksContext _booksContext;
         public BooksService(BooksContext context) => _booksContext = context;
+        #endregion
+
 
         public async Task CreateDatabaseAsync()
         {
             bool isCreated = await _booksContext.Database.EnsureCreatedAsync();
-            string res = isCreated ? "创建完毕":"已创建";
+            string res = isCreated ? "创建完毕" : "已创建";
             Console.WriteLine($"数据库创建：{res}");
         }
 
-        public async Task DeleteDatabaseAsync() {
+        public async Task DeleteDatabaseAsync()
+        {
             bool isDeleted = await _booksContext.Database.EnsureDeletedAsync();
             string res = isDeleted ? "删除完毕" : "无此数据库";
             Console.WriteLine($"数据库删除：{res}");
         }
 
-        //public async Task AddBookAsync() {
-        //    _booksContext.Database
+        public async Task AddBooksAsync(IEnumerable<Book> books)
+        {
 
-        //}
-        //RelationUsingAnnotations----
-        //MenusWithDataAnnotations----
-        //intro
-        //TableSplitting
-        //OwnedEntities
+            // 只是将对象添加进上下文中，并没有写入数据库
+            await _booksContext.Books.AddRangeAsync(books);
+            // SaveChangesAsync才会写入数据库
+            int records = await _booksContext.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 基本查询
+        /// 根据Id查询book
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Book> QueryBookAsync(int id)
+        {
+            return await _booksContext.FindAsync<Book>(id);
+            //return await _booksContext.Books.FirstOrDefaultAsync(b=>b.BookId == id);
+        }
+        /// <summary>
+        /// 基本查询
+        /// 查询所有Book
+        /// </summary>
+        /// <returns></returns>
+        public async Task QueryAllBooksAsync()
+        {
+            List<Book> books = await _booksContext.Books.ToListAsync();
+            foreach (var b in books)
+            {
+                Console.WriteLine(b);
+            }
+            // 使用异步API时，可以使用从ToAsyncEnumerable方法返回的IAsyncEnumerable，并使用ForEachAsync
+            //await context.Books.ToAsyncEnumerable().ForEachAsync(b =>
+            //{
+            //    Console.WriteLine(b);
+            //});
+        }
+
+        /// <summary>
+        /// 原始Sql查询
+        /// </summary>
+        /// <param name="publisher"></param>
+        /// <returns></returns>
+        public async Task RawSqlQuery(string title)
+        {
+            IList<Book> books = await _booksContext.Books.FromSql(
+            $"SELECT * FROM fluent.Books WHERE Title = {title}")
+            .ToListAsync();
+            foreach (var b in books)
+            {
+                Console.WriteLine(b.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 编译查询
+        /// </summary>
+        public void CompiledQuery(string qTitle)
+        {
+            Func<BooksContext, string, IEnumerable<Book>> query =
+                EF.CompileQuery<BooksContext, string, Book>((context, title) =>
+                context.Books.Where(b => b.Title == title));
+
+            IEnumerable<Book> books = query(_booksContext, qTitle);
+            foreach (var b in books)
+            {
+                Console.WriteLine(b.ToString());
+            }
+        }
+
+        /// <summary>
+        /// EF.Functions
+        /// 通过使用EF.Functions.Like增强了Where方法的查询，并提供包含参数titleSegment的表达式。 
+        /// 参数titleSegment嵌入在两个％字符内
+        /// </summary>
+        /// <param name="titleSegment"></param>
+        /// <returns></returns>
+        public async Task UseEFCunctions(string titleSegment)
+        {
+                string likeExpression = $"%{titleSegment}%";
+                IList<Book> books = await _booksContext.Books.Where(
+                b => EF.Functions.Like(b.Title,
+                likeExpression)).ToListAsync();
+                foreach (var b in books)
+                {
+                    Console.WriteLine(b.ToString());
+                }
+        }
+
 
         /// <summary>
         /// 使用BooksContext注册新的logger

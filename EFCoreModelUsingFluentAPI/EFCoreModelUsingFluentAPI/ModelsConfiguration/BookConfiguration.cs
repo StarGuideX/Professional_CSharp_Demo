@@ -20,6 +20,7 @@ namespace EFCoreModelUsingFluentAPI.Models
     {
         public const string MinorBook = nameof(MinorBook);
         public const string AdultBook = nameof(AdultBook);
+        public const string Book = nameof(Book);
     }
 
 

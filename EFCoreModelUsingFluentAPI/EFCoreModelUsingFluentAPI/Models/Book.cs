@@ -21,5 +21,10 @@ namespace EFCoreModelUsingFluentAPI.Models
         public User Author { get; set; }
 
         public User Editor { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id:{BookId},Title:{Title}";
+        }
     }
 }
