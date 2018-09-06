@@ -124,15 +124,17 @@ namespace EFCoreModelUsingFluentAPI.Services
                 Console.WriteLine(b.ToString());
             }
         }
+
+        #region 阴影属性
         /// <summary>
         /// 验证阴影属性
         /// </summary>
         /// <returns></returns>
-        public async Task AddPagesAsync(IEnumerable<Page> pages)
+        public async Task AddShadowPageBooksAsync(IEnumerable<Book> books)
         {
-            await _booksContext.Pages.AddRangeAsync(pages);
+            await _booksContext.Books.AddRangeAsync(books);
             await _booksContext.SaveChangesAsync();
-            Console.WriteLine($"Pages 添加完毕");
+            Console.WriteLine($"ShadowPageBooks添加完毕");
             Console.WriteLine();
         }
 
@@ -166,6 +168,7 @@ namespace EFCoreModelUsingFluentAPI.Services
                 Console.WriteLine($"deleted: {page}");
             }
         }
+        #endregion
 
         /// <summary>
         /// 使用BooksContext注册新的logger

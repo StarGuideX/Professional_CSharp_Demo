@@ -34,6 +34,7 @@ namespace EFCoreModelUsingFluentAPI
             Console.WriteLine("4-基本查询-查询所有Book");
             Console.WriteLine("5-原始Sql查询-查询所有Title为Book的Book(先执行3)");
             Console.WriteLine("6-编译查询-查询所有Title为Book的Book(先执行3)");
+            Console.WriteLine("7-阴影属性");
             //Console.WriteLine("5—根据title查询(请先执行4)");
 
             string index = Console.ReadLine();
@@ -80,27 +81,49 @@ namespace EFCoreModelUsingFluentAPI
                     service.CompiledQuery("Book");
                     break;
                 case "7":
-                    TextFont titleFont = new TextFont() { FontName= "FontName", FontColor=new FontColor() { FontColorName = "red" } };
-                    TextFont textFont = new TextFont() { FontName = "FontName1", FontColor = new FontColor() { FontColorName = "red1" } };
-                    IList<Page> pages = new List<Page>()
+                    IList<Book> shadowPageBooks = new List<Book>()
                     {
-                        new Page("Content1"){ TitleFont=titleFont,TextFont=textFont },
-                        new Page("Content2"){ TitleFont=titleFont,TextFont=textFont },
-                        new Page("Content3"){ TitleFont=titleFont,TextFont=textFont },
-                        new Page("Content4"){ TitleFont=titleFont,TextFont=textFont },
-                        new Page("Content5"){ TitleFont=titleFont,TextFont=textFont },
-
+                       new Book()
+                       {
+                           Title = "shadowPageBook1",
+                           Pages = new List<Page>()
+                           {
+                               new Page("Remark1_1")
+                               {
+                                   Content ="Content1_1",
+                                   TitleFont = new TextFont(){
+                                       FontName = "TitleFontName1_1",
+                                       FontColor = new FontColor(){ FontColorName = "TitleFontColorName1_1" }
+                                   },
+                                   TextFont = new TextFont()
+                                   {
+                                       FontName = "TextFontName1_1",
+                                       FontColor = new FontColor(){ FontColorName = "TextFontColorName1_1" }
+                                   }
+                               },
+                               new Page("Remark1_2")
+                               {
+                                   Content ="Content1_2",
+                                   TitleFont = new TextFont(){
+                                       FontName = "TitleFontName1_2",
+                                       FontColor = new FontColor(){ FontColorName = "TitleFontColorName1_2" }
+                                   },
+                                   TextFont = new TextFont()
+                                   {
+                                       FontName = "TextFontName1_2",
+                                       FontColor = new FontColor(){ FontColorName = "TextFontColorName1_2" }
+                                   }
+                               },
+                           }
+                       }
                     };
 
-
-                    Task t1 = service.AddPagesAsync(pages);
+                    Task t1 = service.AddShadowPageBooksAsync(shadowPageBooks);
                     t1.Wait();
                     Task t2 = service.DeletePageAsync(1);
                     t2.Wait();
-                    Task t3 = service.DeletePageAsync(2);
+                    Task t3 = service.QueryDeletedPagesAsync();
                     t3.Wait();
-                    Task t4 = service.QueryDeletedPagesAsync();
-                    t4.Wait();
                     break;
                 default:
                     Console.WriteLine("已关闭连接，请重新启动");
@@ -119,7 +142,10 @@ namespace EFCoreModelUsingFluentAPI
             services.AddTransient<BooksService>()
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<BooksContext>
-                (options => options.UseSqlServer(ConnectionString));
+                (options => {
+                    options.EnableSensitiveDataLogging();
+                    options.UseSqlServer(ConnectionString); }
+                );
 
             Container = services.BuildServiceProvider();
         }

@@ -40,11 +40,8 @@ namespace EFCoreModelUsingFluentAPI.Contexts
         /// <returns></returns>
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            ChangeTracker.DetectChanges();
-            if (ChangeTracker.Entries().FirstOrDefault().GetType().Equals(typeof(Page)))
-            {
                 // 如果状态显示添加、修改、删除，则会使用当前时间更新阴影属性LastUpdated
-                foreach (var item in ChangeTracker.Entries<Book>()
+                foreach (var item in ChangeTracker.Entries<Page>()
                 .Where(e =>
                 e.State == EntityState.Added ||
                 e.State == EntityState.Modified ||
@@ -59,12 +56,6 @@ namespace EFCoreModelUsingFluentAPI.Contexts
                         item.CurrentValues[IsDeleted] = true;
                     }
                 }
-            }
-           
-
-            
-            
-
             return base.SaveChangesAsync(cancellationToken);
         }
     }

@@ -50,10 +50,6 @@ namespace EFCoreModelUsingFluentAPI.Models
                 .HasValue<AdultBook>(ColumnValues.AdultBook)
                 .HasValue<MinorBook>(ColumnValues.MinorBook);
             #endregion
-
-
-            //builder.Property<DateTime>("LastUpdated");
-            //builder.Property<bool>("IsDeleted");
         }
     }
 }

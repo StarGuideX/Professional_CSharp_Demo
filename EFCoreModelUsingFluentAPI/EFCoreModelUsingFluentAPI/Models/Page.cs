@@ -4,9 +4,9 @@
     {
         private Page() { }
 
-        public Page(string content)
+        public Page(string remark)
         {
-            Content = content;
+            _remark = remark;
         }
         /// <summary>
         /// 可以将表的列映射到私有字段。 这使得可以创建只读属性并使用在类外无法访问的私有字段。
