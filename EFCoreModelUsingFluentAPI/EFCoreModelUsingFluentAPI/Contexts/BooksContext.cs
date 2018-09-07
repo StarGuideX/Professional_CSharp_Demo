@@ -40,22 +40,25 @@ namespace EFCoreModelUsingFluentAPI.Contexts
         /// <returns></returns>
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-                // 如果状态显示添加、修改、删除，则会使用当前时间更新阴影属性LastUpdated
-                foreach (var item in ChangeTracker.Entries<Page>()
+            #region 阴影属性，为Page的阴影属性做处理
+            // 如果状态显示添加、修改、删除，则会使用当前时间更新阴影属性LastUpdated
+            foreach (var item in ChangeTracker.Entries<Page>()
                 .Where(e =>
                 e.State == EntityState.Added ||
                 e.State == EntityState.Modified ||
                 e.State == EntityState.Deleted))
+            {
+                //使用EntityEntry的CurrentValues索引器访问模型中没有的阴影属性
+                item.CurrentValues[LastUpdated] = DateTime.Now;
+                // 将实体的状态由删除状态改为修改状态，并将IsDeleted属性设为true
+                if (item.State == EntityState.Deleted)
                 {
-                    //使用EntityEntry的CurrentValues索引器访问模型中没有的阴影属性
-                    item.CurrentValues[LastUpdated] = DateTime.Now;
-                    // 将实体的状态由删除状态改为修改状态，并将IsDeleted属性设为true
-                    if (item.State == EntityState.Deleted)
-                    {
-                        item.State = EntityState.Modified;
-                        item.CurrentValues[IsDeleted] = true;
-                    }
+                    item.State = EntityState.Modified;
+                    item.CurrentValues[IsDeleted] = true;
                 }
+            }
+            #endregion
+
             return base.SaveChangesAsync(cancellationToken);
         }
     }

@@ -17,7 +17,7 @@ namespace EFCoreModelUsingFluentAPI.Models
             builder.HasMany(u => u.AuthoredBooks).WithOne(b => b.Author);
             builder.HasMany(u => u.EditedBooks).WithOne(b => b.Editor);
             #endregion
-            #region 将两个实体User和Address在数据库合并为一个表
+            #region 表拆分，一个数据库表分为两个实体User和Address
             // 在上下文中，User和Address是两个DbSet属性。
             // 在OnModelCreating方法中，User类与Address使用HasOne和WithOne配置为一对一关系。
             // User和Address传递给ToTable方法的参数指定了相同的表名。 
@@ -25,16 +25,6 @@ namespace EFCoreModelUsingFluentAPI.Models
             //builder.ToTable("Users").HasKey(u => u.UserId); //需要本段代码，可与不设置主键，因为第一行有，所以不重复
             builder.HasOne(u => u.Address).WithOne(a => a.User).HasForeignKey<Address>(a => a.AddressId);
             #endregion
-
-
-
-            //            modelBuilder.Entity<User>().HasOne<Address>(m => m.Address).WithOne(d => d.Menu)
-            //.HasForeignKey<MenuDetails>(d => d.MenuDetailsId);
-            //            modelBuilder.Entity<Menu>().ToTable(SchemaNames.Menus);
-            //            modelBuilder.Entity<MenuDetails>
-            //            ().ToTable(SchemaNames.Menus);
-
-
         }
     }
 }

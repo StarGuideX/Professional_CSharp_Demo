@@ -125,7 +125,7 @@ namespace EFCoreModelUsingFluentAPI.Services
             }
         }
 
-        #region 阴影属性
+        #region 阴影属性和从属实体
         /// <summary>
         /// 验证阴影属性
         /// </summary>

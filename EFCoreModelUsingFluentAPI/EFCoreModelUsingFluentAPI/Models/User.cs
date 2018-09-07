@@ -4,6 +4,9 @@ using System.Text;
 
 namespace EFCoreModelUsingFluentAPI.Models
 {
+    /// <summary>
+    /// 涉及技术：表拆分
+    /// </summary>
     public class User
     {
         public int UserId { get; set; }

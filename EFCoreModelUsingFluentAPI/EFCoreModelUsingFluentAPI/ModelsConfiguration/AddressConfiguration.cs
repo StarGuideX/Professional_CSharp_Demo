@@ -6,11 +6,15 @@ using System.Text;
 
 namespace EFCoreModelUsingFluentAPI.Models
 {
+    /// <summary>
+    /// 涉及技术：表拆分
+    /// </summary>
     public class AddressConfiguration : IEntityTypeConfiguration<Address>
     {
         public void Configure(EntityTypeBuilder<Address> builder)
         {
-            #region 将两个实体User和Address在数据合并为一个表
+            
+            #region 一个数据库表分为两个实体User和Address
             builder.ToTable("Users");
             #endregion
 
