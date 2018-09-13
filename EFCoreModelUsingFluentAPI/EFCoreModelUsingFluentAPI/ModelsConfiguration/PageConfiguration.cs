@@ -37,6 +37,12 @@ namespace EFCoreModelUsingFluentAPI.Models
             builder.Property<DateTime>(LastUpdated);
             #endregion
 
+            #region 查询过滤器
+            builder.HasQueryFilter(p => !EF.Property<bool>(p, IsDeleted));
+            #endregion
+
+
+
 
             #region 从属实体
             builder.OwnsOne(p => p.TitleFont).OwnsOne<FontColor>(t => t.FontColor, tbuilder =>

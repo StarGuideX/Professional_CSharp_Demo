@@ -1,6 +1,7 @@
 ﻿using EFCoreModelUsingFluentAPI.Contexts;
 using EFCoreModelUsingFluentAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -169,6 +170,147 @@ namespace EFCoreModelUsingFluentAPI.Services
             }
         }
         #endregion
+
+        /// <summary>
+        /// 显示加载，每load一次，对应的表就会进行一次查询。
+        /// </summary>
+        /// <param name="startsWithTitle"></param>
+        public void ExplicitLoading(string startsWithTitle)
+        {
+            var book = _booksContext.Books.Where(b => b.Title.StartsWith(startsWithTitle)).FirstOrDefault();
+            if (book != null)
+            {
+                _booksContext.Entry(book).Collection(b => b.Pages).Load();
+                _booksContext.Entry(book).Reference(b => b.Author).Load();
+                Console.WriteLine(book.Author.Name);
+                foreach (var page in book.Pages)
+                {
+                    Console.WriteLine(page.Content);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 立即加载（急切加载）
+        /// </summary>
+        /// <param name="startsWithTitle"></param>
+        public void EagerLoading(string startsWithTitle)
+        {
+            var book = _booksContext.Books.Include(b => b.Author)
+                .Include(b => b.Pages).Where(b => b.Title.StartsWith(startsWithTitle)).FirstOrDefault();
+            if (book != null)
+            {
+                Console.WriteLine(book.Author.Name);
+                foreach (var page in book.Pages)
+                {
+                    Console.WriteLine(page.Content);
+                }
+            }
+        }
+        public void UpdateRecords()
+        {
+            Book book = _booksContext.Books.Skip(1).FirstOrDefault();
+            ShowState();
+            book.Title += "UpdateRecords";
+            ShowState();
+            int records = _booksContext.SaveChanges();
+            Console.WriteLine($"{records} updated");
+            ShowState();
+        }
+        #region 保存
+
+        /// <summary>
+        /// 关联表的保存
+        /// </summary>
+        public void AddRecords()
+        {
+            var book = new Book()
+            {
+                Title = "SaveBook1(Tracker)",
+                Pages = new List<Page>()
+                           {
+                               new Page("Remark1_1")
+                               {
+                                   Content ="Content1_1",
+                                   TitleFont = new TextFont(){
+                                       FontName = "TitleFontName1_1",
+                                       FontColor = new FontColor(){ FontColorName = "TitleFontColorName1_1" }
+                                   },
+                                   TextFont = new TextFont()
+                                   {
+                                       FontName = "TextFontName1_1",
+                                       FontColor = new FontColor(){ FontColorName = "TextFontColorName1_1" }
+                                   }
+                               },
+                               new Page("Remark1_2")
+                               {
+                                   Content ="Content1_2",
+                                   TitleFont = new TextFont(){
+                                       FontName = "TitleFontName1_2",
+                                       FontColor = new FontColor(){ FontColorName = "TitleFontColorName1_2" }
+                                   },
+                                   TextFont = new TextFont()
+                                   {
+                                       FontName = "TextFontName1_2",
+                                       FontColor = new FontColor(){ FontColorName = "TextFontColorName1_2" }
+                                   }
+                               },
+                           },
+                Author = new User()
+                {
+                    Name = "SaveAuthor",
+                    Address = new Address()
+                    {
+                        AddressDetail = "SaveAddressDetail"
+                    }
+                }
+            };
+
+            _booksContext.Books.Add(book);
+            ShowState();
+            int records = _booksContext.SaveChanges();
+            Console.WriteLine($"{records} added");
+        }
+
+        /// <summary>
+        /// DbContext.ChangeTracker.Entries 返回所有更改追踪器知道的所有对象
+        /// </summary>
+        /// <param name="context"></param>
+        private void ShowState()
+        {
+            //ChangeTracker.Entries,returns all the objects the change tracker knows about. 
+            foreach (EntityEntry entry in _booksContext.ChangeTracker.Entries())
+            {
+                Console.WriteLine($"type: {entry.Entity.GetType().Name}," +
+                $"state: {entry.State}, {entry.Entity}");
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// 对象追踪
+        /// </summary>
+        public void ObjectTracking()
+        {
+            var b1 = (from b in _booksContext.Books
+                      where b.Title.StartsWith("Save")
+                      select b).FirstOrDefault();
+            var b2 = (from b in _booksContext.Books
+                      where b.Title.Contains("(")
+                      select b).FirstOrDefault();
+            if (object.ReferenceEquals(b1, b2))
+            {
+                Console.WriteLine("相同对象");
+            }
+            else
+            {
+                Console.WriteLine("不同对象");
+
+            }
+            ShowState();
+        }
+        #endregion
+
 
         /// <summary>
         /// 使用BooksContext注册新的logger

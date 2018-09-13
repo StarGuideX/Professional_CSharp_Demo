@@ -34,7 +34,12 @@ namespace EFCoreModelUsingFluentAPI
             Console.WriteLine("4-基本查询-查询所有Book");
             Console.WriteLine("5-原始Sql查询-查询所有Title为Book的Book(先执行3)");
             Console.WriteLine("6-编译查询-查询所有Title为Book的Book(先执行3)");
-            Console.WriteLine("7-阴影属性");
+            Console.WriteLine("7-阴影属性和从属实体");
+            Console.WriteLine("8-EFCunctions-重复执行的sql语句");
+            Console.WriteLine("9-显示加载");
+            Console.WriteLine("10-立即加载（急切加载）");
+            
+
             //Console.WriteLine("5—根据title查询(请先执行4)");
 
             string index = Console.ReadLine();
@@ -114,6 +119,14 @@ namespace EFCoreModelUsingFluentAPI
                                        FontColor = new FontColor(){ FontColorName = "TextFontColorName1_2" }
                                    }
                                },
+                           },
+                           Author = new User()
+                           {
+                             Name="Author",
+                             Address=new Address()
+                             {
+                                  AddressDetail = "AddressDetailAddressDetailAddressDetail"
+                             }
                            }
                        }
                     };
@@ -124,6 +137,116 @@ namespace EFCoreModelUsingFluentAPI
                     t2.Wait();
                     Task t3 = service.QueryDeletedPagesAsync();
                     t3.Wait();
+                    break;
+                case "8":
+                    await service.UseEFCunctions("Book");
+                    break;
+                case "9":
+                    IList<Book> explicitBooks = new List<Book>()
+                    {
+                       new Book()
+                       {
+                           Title = "ExplicitBook1",
+                           Pages = new List<Page>()
+                           {
+                               new Page("Remark1_1")
+                               {
+                                   Content ="Content1_1",
+                                   TitleFont = new TextFont(){
+                                       FontName = "TitleFontName1_1",
+                                       FontColor = new FontColor(){ FontColorName = "TitleFontColorName1_1" }
+                                   },
+                                   TextFont = new TextFont()
+                                   {
+                                       FontName = "TextFontName1_1",
+                                       FontColor = new FontColor(){ FontColorName = "TextFontColorName1_1" }
+                                   }
+                               },
+                               new Page("Remark1_2")
+                               {
+                                   Content ="Content1_2",
+                                   TitleFont = new TextFont(){
+                                       FontName = "TitleFontName1_2",
+                                       FontColor = new FontColor(){ FontColorName = "TitleFontColorName1_2" }
+                                   },
+                                   TextFont = new TextFont()
+                                   {
+                                       FontName = "TextFontName1_2",
+                                       FontColor = new FontColor(){ FontColorName = "TextFontColorName1_2" }
+                                   }
+                               },
+                           },
+                           Author = new User()
+                           {
+                             Name="Author",
+                             Address=new Address()
+                             {
+                                  AddressDetail = "AddressDetailAddressDetailAddressDetail"
+                             }
+                           }
+                       }
+                    };
+                    service.AddShadowPageBooksAsync(explicitBooks).Wait();
+                    Console.WriteLine("数据添加完毕");
+                    service.ExplicitLoading("Explicit");
+                    break;
+                case "10":
+                    IList<Book> eagerBooks = new List<Book>()
+                    {
+                       new Book()
+                       {
+                           Title = "EagerBook1",
+                           Pages = new List<Page>()
+                           {
+                               new Page("Remark1_1")
+                               {
+                                   Content ="Content1_1",
+                                   TitleFont = new TextFont(){
+                                       FontName = "TitleFontName1_1",
+                                       FontColor = new FontColor(){ FontColorName = "TitleFontColorName1_1" }
+                                   },
+                                   TextFont = new TextFont()
+                                   {
+                                       FontName = "TextFontName1_1",
+                                       FontColor = new FontColor(){ FontColorName = "TextFontColorName1_1" }
+                                   }
+                               },
+                               new Page("Remark1_2")
+                               {
+                                   Content ="Content1_2",
+                                   TitleFont = new TextFont(){
+                                       FontName = "TitleFontName1_2",
+                                       FontColor = new FontColor(){ FontColorName = "TitleFontColorName1_2" }
+                                   },
+                                   TextFont = new TextFont()
+                                   {
+                                       FontName = "TextFontName1_2",
+                                       FontColor = new FontColor(){ FontColorName = "TextFontColorName1_2" }
+                                   }
+                               },
+                           },
+                           Author = new User()
+                           {
+                             Name="Author",
+                             Address=new Address()
+                             {
+                                  AddressDetail = "AddressDetailAddressDetailAddressDetail"
+                             }
+                           }
+                       }
+                    };
+                    service.AddShadowPageBooksAsync(eagerBooks).Wait();
+                    Console.WriteLine("数据添加完毕");
+                    service.EagerLoading("Eager");
+                    break;
+                case "11":
+                    service.AddRecords();
+                    break;
+                case "12":
+                    service.ObjectTracking();
+                    break;
+                case "13":
+                    service.UpdateRecords();
                     break;
                 default:
                     Console.WriteLine("已关闭连接，请重新启动");
@@ -149,6 +272,7 @@ namespace EFCoreModelUsingFluentAPI
 
             Container = services.BuildServiceProvider();
         }
+
         public ServiceProvider Container { get; private set; }
         /// <summary>
         /// 添加日志，输出到Console
