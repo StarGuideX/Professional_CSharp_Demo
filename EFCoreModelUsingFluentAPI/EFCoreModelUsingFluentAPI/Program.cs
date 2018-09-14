@@ -248,6 +248,16 @@ namespace EFCoreModelUsingFluentAPI
                 case "13":
                     service.UpdateRecords();
                     break;
+                case "14":
+                    service.ChangeUntracked();
+                    break;
+                case "15":
+                    service.AddHundredRecords();
+                    break;
+                case "16":
+                    service.ConflictHandling();
+                    break;
+                    
                 default:
                     Console.WriteLine("已关闭连接，请重新启动");
                     break;

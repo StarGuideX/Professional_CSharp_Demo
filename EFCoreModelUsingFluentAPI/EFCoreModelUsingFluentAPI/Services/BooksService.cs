@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -309,8 +310,155 @@ namespace EFCoreModelUsingFluentAPI.Services
             }
             ShowState();
         }
+
+        /// <summary>
+        /// 更新未跟踪的对象
+        /// </summary>
+        public void ChangeUntracked()
+        {
+            Book GetBook()
+            {
+                return _booksContext.Books.Skip(2).FirstOrDefault();
+            }
+
+            Book b = GetBook();
+            b.Title += "ChangeUntracked";
+            UpdateUntracked(b);
+
+        }
+        /// <summary>
+        /// 更新未跟踪的对象
+        /// </summary>
+        /// <param name="b"></param>
+        private void UpdateUntracked(Book b)
+        {
+            ShowState();
+            // UpdateUntracked方法接收更新的对象，将其与context关联
+            // 第一种方式Attach对象，并设置EntityState
+            // EntityEntry<Book> entity = _booksContext.Books.Attach(b);
+            // entity.State = EntityState.Modified;
+            // 使用Update可以自动完成以上注释的语句
+            _booksContext.Books.Update(b);
+            ShowState();
+            _booksContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// 创建了100个Book对象,并写入数据库
+        /// </summary>
+        public void AddHundredRecords()
+        {
+           
+            var books = Enumerable.Range(1, 100).Select(x =>
+             new Book
+             {
+                 Title = "AddHundredRecordsssss",
+             });
+            _booksContext.Books.AddRange(books);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            int records = _booksContext.SaveChanges();
+            stopwatch.Stop();
+            Console.WriteLine($"{records} records added after " + $"{stopwatch.ElapsedMilliseconds} milliseconds");
+        }
         #endregion
 
+        #region 冲突处理
+        private const string BookTitle = "sample book";
+        private const string ConnectionString = @"server=(localdb)\MSSQLLocalDb;database=EFCoreDemoFluentAPI;trusted_connection=true";
+
+        #region 保留最后一条
+        /// <summary>
+        /// 最后一条更改为最终更改（数据库数据更改为最后一条语句）—默认
+        /// </summary>
+        public void ConflictHandling()
+        {
+            var options = new DbContextOptionsBuilder<BooksContext>();
+            options.EnableSensitiveDataLogging();
+            options.UseSqlServer(ConnectionString);
+            // 准备初始数据
+            void PrepareBook()
+            {
+                using (var context = new BooksContext(options.Options))
+                {
+                    context.Books.Add(new Book() { Title = BookTitle });
+                    context.SaveChanges();
+                }
+            }
+
+            PrepareBook();
+
+            // user 1
+            var tuple1 = PrepareUpdate();
+            tuple1.book.Title = "用户1更新了这条";
+
+            // user 2
+            var tuple2 = PrepareUpdate();
+            tuple2.book.Title = "用户2更新了这条";
+
+            Update(tuple1.context, tuple1.book, "用户1");
+            Update(tuple2.context, tuple2.book, "用户2");
+
+            tuple1.context.Dispose();
+            tuple2.context.Dispose();
+
+            CheckUpdate(tuple1.book.BookId);
+        }
+
+        /// <summary>
+        /// 返回一个元组，包括context和book。
+        /// 此方法被调用两次，并返回与不同上下文对象关联的不同Book对象
+        /// </summary>
+        /// <returns></returns>
+        private (BooksContext context, Book book) PrepareUpdate()
+        {
+            var options = new DbContextOptionsBuilder<BooksContext>();
+            options.EnableSensitiveDataLogging();
+            options.UseSqlServer(ConnectionString);
+            var context = new BooksContext(options.Options);
+            Book book = context.Books.Where(b => b.Title == BookTitle).FirstOrDefault();
+            return (context, book);
+        }
+
+        /// <summary>
+        /// 将具有指定ID的书籍写入控制台
+        /// </summary>
+        /// <param name="id"></param>
+        private void CheckUpdate(int id)
+        {
+            var options = new DbContextOptionsBuilder<BooksContext>();
+            options.EnableSensitiveDataLogging();
+            options.UseSqlServer(ConnectionString);
+
+            using (var context = new BooksContext(options.Options))
+            {
+                Book book = context.Books.Find(id);
+                Console.WriteLine($"this is the updated state: {book.Title}");
+            }
+        }
+        /// <summary>
+        /// 接受已打开的BooksContext和更新状态的Book，并将book保存至数据库。
+        /// 此方法也会被调用两次
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="book"></param>
+        /// <param name="user"></param>
+        private void Update(BooksContext context, Book book, string user)
+        {
+            int records = context.SaveChanges();
+            Console.WriteLine($"{user}: {records} record updated from {user}");
+        }
+
+        //private void ShowChanges(int id, EntityEntry entity)
+        //{
+        //    void ShowChange(PropertyEntry propertyEntry) =>
+        //        Console.WriteLine($"id: {id}, current: {propertyEntry.CurrentValue}, original: {propertyEntry.OriginalValue}, modified: {propertyEntry.IsModified}");
+
+        //    ShowChange(entity.Property("Title"));
+        //    ShowChange(entity.Property("Publisher"));
+        //}
+        #endregion
+
+        #endregion
 
         /// <summary>
         /// 使用BooksContext注册新的logger
