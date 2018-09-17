@@ -1,8 +1,10 @@
 ﻿using EFCoreModelUsingFluentAPI.Contexts;
+using EFCoreModelUsingFluentAPI.Extensions;
 using EFCoreModelUsingFluentAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -348,7 +350,7 @@ namespace EFCoreModelUsingFluentAPI.Services
         /// </summary>
         public void AddHundredRecords()
         {
-           
+
             var books = Enumerable.Range(1, 100).Select(x =>
              new Book
              {
@@ -458,7 +460,210 @@ namespace EFCoreModelUsingFluentAPI.Services
         //}
         #endregion
 
+        #region 保留第一条
+        public void ConflictHandingFirst()
+        {
+            var options = new DbContextOptionsBuilder<BooksContext>();
+            options.EnableSensitiveDataLogging();
+            options.UseSqlServer(ConnectionString);
+            // 准备初始数据
+            void PrepareBook()
+            {
+                using (var context = new BooksContext(options.Options))
+                {
+                    context.Books.Add(new Book() { Title = BookTitle });
+                    context.SaveChanges();
+                }
+            }
+            PrepareBook();
+
+
+            (BooksContext context, Book book) PrepareUpdateFirst()
+            {
+
+                var pOptions = new DbContextOptionsBuilder<BooksContext>();
+                pOptions.EnableSensitiveDataLogging();
+                pOptions.UseSqlServer(ConnectionString);
+                var context = new BooksContext(pOptions.Options);
+                Book book = context.Books.Where(b => b.Title == BookTitle).FirstOrDefault();
+                return (context, book);
+            }
+
+            // user 1
+            var tuple1 = PrepareUpdateFirst();
+            tuple1.book.Title = "用户1更新了这条";
+
+            // user 2
+            var tuple2 = PrepareUpdateFirst();
+            tuple2.book.Title = "用户2更新了这条";
+
+            UpdateFirst(tuple1.context, tuple1.book, "用户1");
+            UpdateFirst(tuple2.context, tuple2.book, "用户2");
+
+            tuple1.context.Dispose();
+            tuple2.context.Dispose();
+
+            CheckUpdateFirst(tuple1.book.BookId);
+        }
+
+
+        private void UpdateFirst(BooksContext context, Book book, string user)
+        {
+            try
+            {
+                Console.WriteLine($"{user}: 更新中: id {book.BookId}, timestamp {book.TimeStamp.StringOutput()}");
+                ShowChangesFirst(book.BookId, context.Entry(book));
+                int records = context.SaveChanges();
+                Console.WriteLine($"{user}: 已更新 {book.TimeStamp.StringOutput()}");
+                Console.WriteLine($"{user}: 已更新 {records} 条 updated while updating {book.Title}");
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                Console.WriteLine($"{user}: 使用{book.Title}更新失败");
+                Console.WriteLine($"{user}: error: {ex.Message}");
+                foreach (var entry in ex.Entries)
+                {
+                    if (entry.Entity is Book b)
+                    {
+                        Console.WriteLine($"{b.Title} {b.TimeStamp.StringOutput()}");
+                        ShowChangesFirst(book.BookId, context.Entry(book));
+                    }
+                }
+            }
+
+        }
+
+        private void ShowChangesFirst(int id, EntityEntry entity)
+        {
+            //多次调用
+            void ShowChange(PropertyEntry propertyEntry) =>
+                Console.WriteLine($"id:{id},CurrentValue：{propertyEntry.CurrentValue}," +
+                $"original: {propertyEntry.OriginalValue}, modified: {propertyEntry.IsModified}");
+
+            ShowChange(entity.Property("Title"));
+        }
+
+        private static void CheckUpdateFirst(int id)
+        {
+            var options = new DbContextOptionsBuilder<BooksContext>();
+            options.EnableSensitiveDataLogging();
+            options.UseSqlServer(ConnectionString);
+
+            using (var context = new BooksContext(options.Options))
+            {
+                Book book = context.Books.Find(id);
+                Console.WriteLine($"已更新状态: {book.Title}");
+            }
+        }
         #endregion
+
+        #endregion
+
+        #region 事务
+        /// <summary>
+        /// 隐式事务，添加失败
+        /// </summary>
+        public void AddTwoRecordsWithOneTx()
+        {
+            try
+            {
+                var b1 = new Book
+                {
+                    Title = "added"
+                };
+                // hightestId为数据库可用的、最大的ID
+                int hightestId = _booksContext.Books.Max(b => b.BookId);
+                var bInvalid = new Book
+                {
+                    //比最大的ID还+1，就引用了无效的MenuCard
+                    BookId = ++hightestId,
+                    Title = "invalid"
+                };
+                _booksContext.Books.AddRange(b1, bInvalid);
+                int records = _booksContext.SaveChanges();
+                Console.WriteLine($"添加了{records}条");
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+                Console.WriteLine($"{ex?.InnerException.Message}");
+            }
+            Console.WriteLine();
+        }
+
+        private void AddTwoRecordsWithTwoTx()
+        {
+            try
+            {
+                var b1 = new Book
+                {
+                    Title = "added"
+                };
+                _booksContext.Books.Add(b1);
+                int records = _booksContext.SaveChanges();
+                Console.WriteLine($"添加了{records}条");
+                // hightestId为数据库可用的、最大的ID
+                int hightestId = _booksContext.Books.Max(b => b.BookId);
+                var bInvalid = new Book
+                {
+                    //比最大的ID还+1，就引用了无效的MenuCard
+                    BookId = ++hightestId,
+                    Title = "invalid"
+                };
+                _booksContext.Books.Add(bInvalid);
+                records = _booksContext.SaveChanges();
+                Console.WriteLine($"添加了{records}条");
+
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+                Console.WriteLine($"{ex?.InnerException.Message}");
+            }
+            Console.WriteLine();
+        }
+
+        private async Task TwoSaveChangesWithOneTxAsync()
+        {
+            IDbContextTransaction tx = null;
+            try
+            {
+
+                using (tx = await _booksContext.Database.BeginTransactionAsync())
+                {
+                    var b1 = new Book
+                    {
+                        Title = "added with explicit tx"
+                    };
+                    _booksContext.Books.Add(b1);
+                    int records = await _booksContext.SaveChangesAsync();
+                    Console.WriteLine($"添加了{records}条");
+                    // hightestId为数据库可用的、最大的ID
+                    int hightestId = _booksContext.Books.Max(b => b.BookId);
+                    var bInvalid = new Book
+                    {
+                        //比最大的ID还+1，就引用了无效的MenuCard
+                        BookId = ++hightestId,
+                        Title = "invalid"
+                    };
+                    _booksContext.Books.Add(bInvalid);
+                    records = await _booksContext.SaveChangesAsync();
+                    Console.WriteLine($"添加了{records}条");
+                    tx.Commit();
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+                Console.WriteLine($"{ex?.InnerException.Message}");
+                Console.WriteLine("rolling back…");
+                tx.Rollback();
+            }
+            Console.WriteLine();
+        }
+        #endregion
+
+
 
         /// <summary>
         /// 使用BooksContext注册新的logger

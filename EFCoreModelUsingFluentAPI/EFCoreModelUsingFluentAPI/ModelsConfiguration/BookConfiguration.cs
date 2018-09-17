@@ -50,6 +50,11 @@ namespace EFCoreModelUsingFluentAPI.Models
                 .HasValue<AdultBook>(ColumnValues.AdultBook)
                 .HasValue<MinorBook>(ColumnValues.MinorBook);
             #endregion
+
+            #region 解决冲突_保留第一个更改,和保存最后一个更改会有冲突
+            builder.Property(p => p.TimeStamp).HasColumnType("timestamp")
+                .ValueGeneratedOnAddOrUpdate().IsConcurrencyToken();
+            #endregion
         }
     }
 }

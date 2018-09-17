@@ -257,6 +257,9 @@ namespace EFCoreModelUsingFluentAPI
                 case "16":
                     service.ConflictHandling();
                     break;
+                case "17":
+                    service.ConflictHandingFirst();
+                    break;
                     
                 default:
                     Console.WriteLine("已关闭连接，请重新启动");

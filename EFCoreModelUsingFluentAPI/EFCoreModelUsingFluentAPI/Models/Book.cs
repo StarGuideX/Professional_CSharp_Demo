@@ -28,6 +28,10 @@ namespace EFCoreModelUsingFluentAPI.Models
         public User Editor { get; set; }
         #endregion
 
+        #region 解决冲突_保留第一个更改
+        public byte[] TimeStamp { get; set; }
+        #endregion
+
 
         public override string ToString()
         {
