@@ -20,7 +20,7 @@ namespace EFCoreModelUsingFluentAPI.Contexts
 
         public DbSet<Page> Pages { get; set; }
         public DbSet<Book> Books { get; set; }
-
+        public DbSet<Chapter> Chapters { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -210,6 +210,9 @@ namespace EFCoreModelUsingFluentAPI.Services
                 }
             }
         }
+        /// <summary>
+        /// 对象的更新状态变化
+        /// </summary>
         public void UpdateRecords()
         {
             Book book = _booksContext.Books.Skip(1).FirstOrDefault();
@@ -461,6 +464,9 @@ namespace EFCoreModelUsingFluentAPI.Services
         #endregion
 
         #region 保留第一条
+        /// <summary>
+        /// 第一条更改为最终更改
+        /// </summary>
         public void ConflictHandingFirst()
         {
             var options = new DbContextOptionsBuilder<BooksContext>();
@@ -567,19 +573,23 @@ namespace EFCoreModelUsingFluentAPI.Services
         {
             try
             {
-                var b1 = new Book
+                Book book = _booksContext.Books.First();
+
+                var chapter = new Chapter()
                 {
-                    Title = "added"
+                    BookId = book.BookId,
+                    Title = "TxChapterAdded",
+                    Number = 1
                 };
-                // hightestId为数据库可用的、最大的ID
-                int hightestId = _booksContext.Books.Max(b => b.BookId);
-                var bInvalid = new Book
+                // 取得现有book表中最后一条id
+                int hightestId = _booksContext.Books.Max(c => c.BookId);
+                var pInvalid = new Chapter
                 {
-                    //比最大的ID还+1，就引用了无效的MenuCard
+                    //BookId赋予了一个无效的id
                     BookId = ++hightestId,
                     Title = "invalid"
                 };
-                _booksContext.Books.AddRange(b1, bInvalid);
+                _booksContext.Chapters.AddRange(chapter, pInvalid);
                 int records = _booksContext.SaveChanges();
                 Console.WriteLine($"添加了{records}条");
             }
@@ -591,29 +601,34 @@ namespace EFCoreModelUsingFluentAPI.Services
             Console.WriteLine();
         }
 
-        private void AddTwoRecordsWithTwoTx()
+        /// <summary>
+        /// 多次调用savechanges
+        /// </summary>
+        public void AddTwoRecordsWithTwoTx()
         {
             try
             {
-                var b1 = new Book
+                Book book = _booksContext.Books.First();
+                var chapter = new Chapter()
                 {
-                    Title = "added"
+                    BookId = book.BookId,
+                    Title = "TxChapterAdded",
+                    Number = 1
                 };
-                _booksContext.Books.Add(b1);
+                _booksContext.Chapters.Add(chapter);
                 int records = _booksContext.SaveChanges();
                 Console.WriteLine($"添加了{records}条");
-                // hightestId为数据库可用的、最大的ID
-                int hightestId = _booksContext.Books.Max(b => b.BookId);
-                var bInvalid = new Book
+                // 取得现有book表中最后一条id
+                int hightestId = _booksContext.Books.Max(c => c.BookId);
+                var pInvalid = new Chapter
                 {
-                    //比最大的ID还+1，就引用了无效的MenuCard
+                    //BookId赋予了一个无效的id
                     BookId = ++hightestId,
                     Title = "invalid"
                 };
-                _booksContext.Books.Add(bInvalid);
+                _booksContext.Chapters.Add(pInvalid);
                 records = _booksContext.SaveChanges();
                 Console.WriteLine($"添加了{records}条");
-
             }
             catch (DbUpdateException ex)
             {
@@ -623,31 +638,37 @@ namespace EFCoreModelUsingFluentAPI.Services
             Console.WriteLine();
         }
 
-        private async Task TwoSaveChangesWithOneTxAsync()
+        /// <summary>
+        /// 显示事务
+        /// </summary>
+        /// <returns></returns>
+        public void  TwoSaveChangesWithOneTx()
         {
             IDbContextTransaction tx = null;
             try
             {
-
-                using (tx = await _booksContext.Database.BeginTransactionAsync())
+                using (tx =  _booksContext.Database.BeginTransaction())
                 {
-                    var b1 = new Book
+                    Book book = _booksContext.Books.First();
+                    var chapter = new Chapter()
                     {
-                        Title = "added with explicit tx"
+                        BookId = book.BookId,
+                        Title = "TxChapterAdded",
+                        Number = 1
                     };
-                    _booksContext.Books.Add(b1);
-                    int records = await _booksContext.SaveChangesAsync();
+                    _booksContext.Chapters.Add(chapter);
+                    int records = _booksContext.SaveChanges();
                     Console.WriteLine($"添加了{records}条");
-                    // hightestId为数据库可用的、最大的ID
-                    int hightestId = _booksContext.Books.Max(b => b.BookId);
-                    var bInvalid = new Book
+                    // 取得现有book表中最后一条id
+                    int hightestId = _booksContext.Books.Max(c => c.BookId);
+                    var pInvalid = new Chapter
                     {
-                        //比最大的ID还+1，就引用了无效的MenuCard
+                        //BookId赋予了一个无效的id
                         BookId = ++hightestId,
                         Title = "invalid"
                     };
-                    _booksContext.Books.Add(bInvalid);
-                    records = await _booksContext.SaveChangesAsync();
+                    _booksContext.Chapters.Add(pInvalid);
+                    records = _booksContext.SaveChanges();
                     Console.WriteLine($"添加了{records}条");
                     tx.Commit();
                 }

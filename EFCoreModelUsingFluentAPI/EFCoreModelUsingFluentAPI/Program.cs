@@ -28,17 +28,27 @@ namespace EFCoreModelUsingFluentAPI
         static async Task PickMethodAsync(BooksService service)
         {
             Console.WriteLine("请选择");
-            Console.WriteLine("1—检查是否创建数据库");
-            Console.WriteLine("2-删除数据库");
-            Console.WriteLine("3-添加多本书");
-            Console.WriteLine("4-基本查询-查询所有Book");
-            Console.WriteLine("5-原始Sql查询-查询所有Title为Book的Book(先执行3)");
-            Console.WriteLine("6-编译查询-查询所有Title为Book的Book(先执行3)");
-            Console.WriteLine("7-阴影属性和从属实体");
-            Console.WriteLine("8-EFCunctions-重复执行的sql语句");
-            Console.WriteLine("9-显示加载");
+            Console.WriteLine("01-检查是否创建数据库");
+            Console.WriteLine("02-删除数据库");
+            Console.WriteLine("03-添加多本书");
+            Console.WriteLine("04-基本查询-查询所有Book");
+            Console.WriteLine("05-原始Sql查询-查询所有Title为Book的Book(先执行3)");
+            Console.WriteLine("06-编译查询-查询所有Title为Book的Book(先执行3)");
+            Console.WriteLine("07-阴影属性和从属实体");
+            Console.WriteLine("08-EFCunctions-重复执行的sql语句");
+            Console.WriteLine("09-显示加载");
             Console.WriteLine("10-立即加载（急切加载）");
-            
+            Console.WriteLine("11-关联表的保存）");
+            Console.WriteLine("12-对象追踪");
+            Console.WriteLine("13-对象的更新状态变化");
+            Console.WriteLine("14-更新未跟踪的对象"); 
+            Console.WriteLine("15-批处理-100条记录合并为一条插入");
+            Console.WriteLine("16-冲突-最后一条更改为最终更改-默认"); 
+            Console.WriteLine("17-冲突-第一条更改为最终更改"); 
+            Console.WriteLine("18-事务-事务提交失败演示"); 
+            Console.WriteLine("19-事务-多次调用savechanges"); 
+            Console.WriteLine("20-事务-显示事务"); 
+
 
             //Console.WriteLine("5—根据title查询(请先执行4)");
 
@@ -260,7 +270,15 @@ namespace EFCoreModelUsingFluentAPI
                 case "17":
                     service.ConflictHandingFirst();
                     break;
-                    
+                case "18":
+                    service.AddTwoRecordsWithOneTx();
+                    break;
+                case "19":
+                    service.AddTwoRecordsWithTwoTx();
+                    break;
+                case "20":
+                    service.TwoSaveChangesWithOneTx();
+                    break;
                 default:
                     Console.WriteLine("已关闭连接，请重新启动");
                     break;
